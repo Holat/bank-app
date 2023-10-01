@@ -27,8 +27,12 @@ const Card = ({ item }) => {
             {item.debitOrCredit === "debit" ? "-" : "+"}${item.amount}
           </Text>
         </View>
-        <View style={{ color: "gray" }}>
-          <Text>{item.time}</Text>
+        <View>
+          <Text
+            style={{ fontFamily: "Mon", fontWeight: "bold", color: "gray" }}
+          >
+            {item.time}
+          </Text>
         </View>
       </View>
     </View>
@@ -96,5 +100,6 @@ const styles = StyleSheet.create({
   boldTxt: {
     fontWeight: "bold",
     fontSize: 16,
+    fontFamily: "Mon",
   },
 });

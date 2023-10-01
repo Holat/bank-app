@@ -19,8 +19,18 @@ const HomeScreen = () => {
         ]}
       >
         <View>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Hello Alex👋</Text>
-          <Text>your financial dreamland</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              fontFamily: "Roboto-Medium",
+            }}
+          >
+            Hello Alex👋
+          </Text>
+          <Text style={{ fontFamily: "Roboto-Light" }}>
+            your financial dreamland
+          </Text>
         </View>
         <UserCircleIcon color={"#001c55"} size={50} />
       </View>
