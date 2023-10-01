@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -25,8 +26,10 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <AppNavigation />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <AppNavigation />
+      </View>
+    </GestureHandlerRootView>
   );
 }
