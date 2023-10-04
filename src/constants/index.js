@@ -6,10 +6,10 @@ import {
 
 const Accounts = [
   {
-    id: "a0",
-    name: "Current",
+    id: "a2",
+    name: "others",
     balance: "10,000",
-    color: "#001c55",
+    color: "#06D6A0",
   },
   {
     id: "a1",
@@ -18,10 +18,10 @@ const Accounts = [
     color: "#F72585",
   },
   {
-    id: "a2",
-    name: "others",
+    id: "a0",
+    name: "Current",
     balance: "10,000",
-    color: "#06D6A0",
+    color: "#001c55",
   },
 ];
 
