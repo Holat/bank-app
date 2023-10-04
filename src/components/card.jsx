@@ -21,6 +21,21 @@ const Card = () => {
   const [currentAcct, setCurrentAcct] = useState("a0");
   const translateY = useSharedValue(0);
 
+  const zIndex = useSharedValue(3);
+  const top = useSharedValue(40);
+  const opacity = useSharedValue(1);
+  const width = useSharedValue(100);
+
+  const zIndex1 = useSharedValue(2);
+  const top1 = useSharedValue(20);
+  const opacity1 = useSharedValue(0.9);
+  const width1 = useSharedValue(90);
+
+  const zIndex2 = useSharedValue(1);
+  const top2 = useSharedValue(0);
+  const opacity2 = useSharedValue(0.8);
+  const width2 = useSharedValue(80);
+
   // const moveItemToFront = useCallback(() => {
   //   const itemToMove = Accounts.pop();
   //   Accounts.unshift(itemToMove);
@@ -37,58 +52,64 @@ const Card = () => {
           translateY.value = Math.max(0, Math.min(e.translationY, 60));
         })
         .onEnd((e) => {
-          translateY.value = withSpring(0, undefined, () => {
-            console.log("end");
-          });
+          if (translateY.value >= 60) {
+            translateY.value = withSpring(0);
+            zIndex.value = withTiming(-3);
+            top.value = withSpring(0);
+            width.value = withSpring(80);
+            opacity.value = withTiming(0.8);
+
+            zIndex1.value = withTiming(3);
+            top1.value = withSpring(40);
+            width1.value = withSpring(100);
+            opacity1.value = withTiming(1);
+
+            zIndex2.value = withTiming(2);
+            top2.value = withSpring(20);
+            width2.value = withSpring(90);
+            opacity2.value = withTiming(0.9, undefined, (isFinished) => {
+              if (isFinished) {
+                console.log("finished");
+              }
+            });
+          } else {
+            translateY.value = withSpring(0);
+          }
         }),
-    [currentAcct]
+    []
   );
 
   const rStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      translateY.value,
-      inputRange,
-      [1, 0],
-      Extrapolate.CLAMP
-    );
-    const width = interpolate(
-      translateY.value,
-      inputRange,
-      [100, 80],
-      Extrapolate.CLAMP
-    );
-
-    const top = interpolate(translateY.value, inputRange, [40, 0]);
-
     return {
       transform: [{ translateY: translateY.value }],
-      opacity,
-      width: `${width}%`,
-      top,
+      opacity: opacity.value,
+      width: `${width.value}%`,
+      top: top.value,
+      zIndex: zIndex.value,
+    };
+  });
+
+  const rStyle1 = useAnimatedStyle(() => {
+    // const width = interpolate(translateY.value, inputRange, [90, 100]);
+    // const opacity = interpolate(translateY.value, inputRange, [0.9, 1]);
+    // const top = interpolate(translateY.value, inputRange, [20, 40]);
+
+    return {
+      width: `${width1.value}%`,
+      opacity: opacity1.value,
+      top: top1.value,
     };
   });
 
   const rStyle2 = useAnimatedStyle(() => {
-    const width = interpolate(translateY.value, inputRange, [90, 100]);
-    const opacity = interpolate(translateY.value, inputRange, [0.9, 1]);
-    const top = interpolate(translateY.value, inputRange, [20, 40]);
+    // const width = interpolate(translateY.value, inputRange, [80, 90]);
+    // const opacity = interpolate(translateY.value, inputRange, [0.8, 0.9]);
+    // const top = interpolate(translateY.value, inputRange, [0, 20]);
 
     return {
-      width: `${width}%`,
-      opacity,
-      top,
-    };
-  });
-
-  const rStyle3 = useAnimatedStyle(() => {
-    const width = interpolate(translateY.value, inputRange, [80, 90]);
-    const opacity = interpolate(translateY.value, inputRange, [0.8, 0.9]);
-    const top = interpolate(translateY.value, inputRange, [0, 20]);
-
-    return {
-      width: `${width}%`,
-      opacity,
-      top,
+      width: `${width2.value}%`,
+      opacity: opacity2.value,
+      top: top2.value,
     };
   });
 
@@ -102,12 +123,11 @@ const Card = () => {
               style={[
                 styles.card,
                 {
-                  top: i * 20,
                   backgroundColor: acct.color,
                 },
                 i === 2 && rStyle,
-                i === 1 && rStyle2,
-                i === 0 && rStyle3,
+                i === 1 && rStyle1,
+                i === 0 && rStyle2,
               ]}
             >
               <Text style={styles.cardTxt1}>{acct.name} Account</Text>
