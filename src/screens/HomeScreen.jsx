@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { Card, Transactions } from "../components";
+import { Cards, Transactions } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
 
@@ -34,7 +34,7 @@ const HomeScreen = () => {
         </View>
         <UserCircleIcon color={"#001c55"} size={50} />
       </View>
-      <Card />
+      <Cards />
       <Transactions />
     </View>
   );
