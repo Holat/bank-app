@@ -2,71 +2,80 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Icon, Accounts } from "../constants";
 import Animated, {
+  Easing,
   Extrapolate,
   FadeInDown,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
   withTiming,
 } from "react-native-reanimated";
-import {
-  GestureDetector,
-  Gesture,
-  Directions,
-} from "react-native-gesture-handler";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
 const CARD_GAP = 22;
 const ACCOUNT_LENGTH = Accounts.length;
 
-const Card = ({ index, acct }) => {
-  const activeIndex = useSharedValue(0);
+const Card = ({
+  index,
+  acct,
+  firstPriority,
+  secondPriority,
+  thirdPriority,
+  priority,
+}) => {
+  const BB = 0;
+  const translateY = useSharedValue(BB);
 
-  const flingUp = Gesture.Fling()
-    .direction(Directions.UP)
-    .onStart(() => {
-      if (activeIndex.value === 0) {
-        return;
+  const gesture = Gesture.Pan()
+    .onBegin(({ translationY }) => {
+      translateY.value = translationY;
+    })
+    .onUpdate(({ translationY }) => {
+      translateY.value = translationY + BB;
+    })
+    .onEnd(() => {
+      const priorities = [
+        firstPriority.value,
+        secondPriority.value,
+        thirdPriority.value,
+      ];
+
+      const lastItem = priorities[priorities.length - 1];
+      for (let i = priorities.length - 1; i > 0; i--) {
+        priorities[i] = priorities[i - 1];
       }
 
-      activeIndex.value = withTiming(activeIndex.value - 1, { duration: 400 });
-      console.log(activeIndex.value);
-    });
+      priorities[0] = lastItem;
 
-  const flingDown = Gesture.Fling()
-    .direction(Directions.DOWN)
-    .onStart(() => {
-      if (activeIndex.value === ACCOUNT_LENGTH) {
-        return;
-      }
+      firstPriority.value = priorities[0];
+      secondPriority.value = priorities[1];
+      thirdPriority.value = priorities[2];
 
-      activeIndex.value = withTiming(activeIndex.value + 1, { duration: 400 });
-      console.log(activeIndex.value);
+      translateY.value = withSpring(BB);
     });
 
   const rStyle = useAnimatedStyle(() => {
-    const scale = interpolate(
-      activeIndex.value,
-      [index - 1, index, index + 1],
-      [0.93, 1, 1]
-    );
-
-    const translateY = interpolate(
-      activeIndex.value,
-      [index - 1, index, index + 1],
-      [-CARD_GAP, 0, CARD_GAP]
-    );
-
-    const opacity = interpolate(
-      activeIndex.value,
-      [index - 1, index, index + 1],
-      [1 - index * 0.15, 1, 1 - index]
-    );
+    const getPosition = () => {
+      switch (priority.value) {
+        case 1:
+          return 0;
+        case 0.9:
+          return 15;
+        case 0.8:
+          return 30;
+        default:
+          return 0;
+      }
+    };
 
     return {
       position: "absolute",
-      zIndex: ACCOUNT_LENGTH - index,
-      transform: [{ scale }, { translateY }],
-      opacity,
+      width: `${priority.value * 100}%`,
+      bottom: withTiming(getPosition(), { duration: 500 }),
+      zIndex: priority.value * 100,
+      transform: [{ translateY: translateY.value }],
+      opacity: withTiming(priority.value),
       shadowOffset: {
         width: 0,
         height: 2,
@@ -79,9 +88,9 @@ const Card = ({ index, acct }) => {
   });
 
   return (
-    <GestureDetector gesture={Gesture.Exclusive(flingUp, flingDown)}>
+    <GestureDetector gesture={gesture}>
       <Animated.View
-        // entering={FadeInDown.springify().delay(index * 100)}
+        entering={FadeInDown.springify().delay(index * 100)}
         style={[styles.card, { backgroundColor: acct.color }, rStyle]}
       >
         <Text style={styles.cardTxt1}>{acct.name} Account</Text>
@@ -96,10 +105,25 @@ const Card = ({ index, acct }) => {
 };
 
 const Cards = () => {
+  const firstPriority = useSharedValue(1);
+  const secondPriority = useSharedValue(0.9);
+  const thirdPriority = useSharedValue(0.8);
   return (
     <View style={styles.cont}>
       {Accounts.map((acct, i) => {
-        return <Card index={i} acct={acct} key={acct.id} />;
+        const priority =
+          i === 0 ? thirdPriority : i === 1 ? secondPriority : firstPriority;
+        return (
+          <Card
+            index={i}
+            acct={acct}
+            key={acct.id}
+            priority={priority}
+            firstPriority={firstPriority}
+            secondPriority={secondPriority}
+            thirdPriority={thirdPriority}
+          />
+        );
       })}
     </View>
   );
@@ -109,13 +133,11 @@ export default Cards;
 
 const styles = StyleSheet.create({
   cont: {
-    // paddingVertical: 20,
     position: "relative",
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     flex: 1,
-    marginVertical: 10,
+    marginBottom: 20,
   },
 
   card: {
