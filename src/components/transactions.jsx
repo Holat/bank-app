@@ -1,11 +1,48 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { BuildingLibraryIcon } from "react-native-heroicons/solid";
 import { Trans } from "./trans";
+import { ThemeContext } from "../constants/ThemeContextProvider";
+import Animated, {
+  withTiming,
+  useDerivedValue,
+  interpolateColor,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import { Colors } from "../constants/Theme";
 
 const Card = ({ item }) => {
+  const { theme } = useContext(ThemeContext);
+  const progress = useDerivedValue(() => {
+    return theme === "light" ? withTiming(0) : withTiming(1);
+  }, [theme]);
+
+  const rStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.dark.background, Colors.light.background]
+    );
+
+    return {
+      backgroundColor,
+    };
+  });
+
+  const rTxtStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.light.background, Colors.dark.background]
+    );
+
+    return {
+      color,
+    };
+  });
+
   return (
-    <View style={styles.cont}>
+    <Animated.View style={[styles.cont, rStyle]}>
       <View style={styles.icon}>
         <BuildingLibraryIcon color={"white"} size={25} />
       </View>
@@ -17,32 +54,56 @@ const Card = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={styles.boldTxt}>{item.name}</Text>
-          <Text
+          <Animated.Text style={[styles.boldTxt, rTxtStyle]}>
+            {item.name}
+          </Animated.Text>
+          <Animated.Text
             style={[
               styles.boldTxt,
               { color: item.debitOrCredit === "credit" ? "green" : "red" },
+              rTxtStyle,
             ]}
           >
             {item.debitOrCredit === "debit" ? "-" : "+"}${item.amount}
-          </Text>
+          </Animated.Text>
         </View>
         <View>
-          <Text
-            style={{ fontFamily: "Mon", fontWeight: "bold", color: "gray" }}
+          <Animated.Text
+            style={[
+              { fontFamily: "Mon", fontWeight: "bold", opacity: 0.5 },
+              rTxtStyle,
+            ]}
           >
             {item.time}
-          </Text>
+          </Animated.Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
 const Transactions = () => {
+  const { theme } = useContext(ThemeContext);
+  const progress = useDerivedValue(() => {
+    return theme === "light" ? withTiming(0) : withTiming(1);
+  }, [theme]);
+
+  const rTxtStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.light.background, Colors.dark.background]
+    );
+
+    return {
+      color,
+    };
+  });
   return (
     <View style={{ flex: 2 }}>
-      <Text style={styles.header}>Transactions</Text>
+      <Animated.Text style={[styles.header, rTxtStyle]}>
+        Transactions
+      </Animated.Text>
       <ScrollView
         contentContainerStyle={{
           gap: 5,
@@ -81,7 +142,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   header: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
   },
