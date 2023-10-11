@@ -1,13 +1,50 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import { View, StyleSheet } from "react-native";
+import React, { useContext } from "react";
 import { Cards, Transactions } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
+import { Colors } from "../constants/Theme";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { ThemeContext } from "../constants/ThemeContextProvider";
 
 const HomeScreen = () => {
+  const { theme } = useContext(ThemeContext);
+  const progress = useDerivedValue(() => {
+    return theme === "light" ? withTiming(0) : withTiming(1);
+  }, [theme]);
+
+  const rStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.dark.background, Colors.light.background]
+    );
+
+    return {
+      backgroundColor,
+    };
+  });
+
+  const rTxtStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.light.background, Colors.dark.background]
+    );
+
+    return {
+      color,
+    };
+  });
+
   const { top } = useSafeAreaInsets();
   return (
-    <View style={[styles.cont, { paddingTop: top }]}>
+    <Animated.View style={[styles.cont, { paddingTop: top }, rStyle]}>
       <View
         style={[
           styles.flex,
@@ -19,24 +56,32 @@ const HomeScreen = () => {
         ]}
       >
         <View>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              fontFamily: "Roboto-Medium",
-            }}
+          <Animated.Text
+            style={[
+              {
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Roboto-Medium",
+              },
+              rTxtStyle,
+            ]}
           >
             Hello Alex👋
-          </Text>
-          <Text style={{ fontFamily: "Roboto-Light" }}>
-            your financial dreamland
-          </Text>
+          </Animated.Text>
+          <Animated.Text
+            style={[
+              { fontFamily: "Roboto-Light", opacity: 0.7, fontSize: 12 },
+              rTxtStyle,
+            ]}
+          >
+            your financial dreamland ...
+          </Animated.Text>
         </View>
         <UserCircleIcon color={"#001c55"} size={50} />
       </View>
       <Cards />
       <Transactions />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -46,7 +91,6 @@ const styles = StyleSheet.create({
   cont: {
     flex: 1,
     padding: 15,
-    backgroundColor: "white",
   },
 
   flex: {
