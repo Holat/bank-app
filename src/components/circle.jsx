@@ -21,6 +21,7 @@ const Circle = ({ rStyleBtn, priority }) => {
 
     return {
       opacity: withTiming(getOp(), { duration: 300 }),
+      height: withTiming(getOp() * 50, { duration: 500 }),
     };
   });
   return (

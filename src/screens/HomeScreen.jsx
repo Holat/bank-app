@@ -69,15 +69,19 @@ const HomeScreen = () => {
             Hello Alex👋
           </Animated.Text>
           <Animated.Text
-            style={[
-              { fontFamily: "Roboto-Light", opacity: 0.7, fontSize: 12 },
-              rTxtStyle,
-            ]}
+            style={[{ fontFamily: "Roboto-Medium", fontSize: 12 }, rTxtStyle]}
           >
-            your financial dreamland ...
+            Your financial dreamland ...
           </Animated.Text>
         </View>
-        <UserCircleIcon color={"#001c55"} size={50} />
+        <UserCircleIcon
+          color={"#001c55"}
+          style={{
+            backgroundColor: "white",
+            borderRadius: 50,
+          }}
+          size={35}
+        />
       </View>
       <Cards />
       <Transactions />

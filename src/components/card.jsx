@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Animated, {
   FadeInDown,
+  interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
@@ -46,7 +46,7 @@ const Card = ({
       secondPriority.value = priorities[1];
       thirdPriority.value = priorities[2];
 
-      translateY.value = withSpring(BB);
+      translateY.value = withTiming(BB);
     });
 
   const rStyle = useAnimatedStyle(() => {
@@ -63,9 +63,11 @@ const Card = ({
       }
     };
 
+    const width = interpolate(priority.value, [1, 0.9, 0.8], [100, 90, 80]);
+
     return {
       position: "absolute",
-      width: `${priority.value * 100}%`,
+      width: withTiming(`${width}%`, { duration: 200 }),
       bottom: withTiming(getPosition(), { duration: 500 }),
       zIndex: priority.value * 100,
       transform: [{ translateY: translateY.value }],
@@ -77,7 +79,7 @@ const Card = ({
       shadowRadius: 3.84,
       shadowOpacity: 0.25,
 
-      elevation: 8,
+      elevation: 5,
     };
   });
 
