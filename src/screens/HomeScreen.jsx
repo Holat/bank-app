@@ -1,16 +1,17 @@
 import { View, StyleSheet } from "react-native";
 import React, { useContext } from "react";
-import { Cards, Transactions } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
-import { Colors } from "../constants/Theme";
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
 } from "react-native-reanimated";
+
 import { ThemeContext } from "../constants/ThemeContextProvider";
+import { Cards, QuickAccess, Transactions } from "../components";
+import { Colors } from "../constants/Theme";
 
 const HomeScreen = () => {
   const { theme } = useContext(ThemeContext);
@@ -52,6 +53,7 @@ const HomeScreen = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             paddingVertical: 15,
+            paddingHorizontal: 15,
           },
         ]}
       >
@@ -77,13 +79,15 @@ const HomeScreen = () => {
         <UserCircleIcon
           color={"#001c55"}
           style={{
-            backgroundColor: "white",
+            backgroundColor:
+              theme === "dark" ? Colors.dark.card : Colors.light.card,
             borderRadius: 50,
           }}
           size={35}
         />
       </View>
       <Cards />
+      <QuickAccess />
       <Transactions />
     </Animated.View>
   );
@@ -94,7 +98,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   cont: {
     flex: 1,
-    padding: 15,
   },
 
   flex: {
