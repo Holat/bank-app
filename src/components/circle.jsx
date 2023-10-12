@@ -4,7 +4,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 
-const Circle = ({ rStyleBtn, priority }) => {
+const Circle = ({ rStyleBtn, priority, firstPriority }) => {
   const rOp = useAnimatedStyle(() => {
     const getOp = () => {
       switch (priority.value) {
@@ -19,18 +19,28 @@ const Circle = ({ rStyleBtn, priority }) => {
       }
     };
 
+    const getColor = () => {
+      switch (firstPriority.value) {
+        case 1:
+          return "rgb(0, 28, 85)";
+        case 0.9:
+          return "rgb(6, 214, 160)";
+        case 0.8:
+          return "rgb(247, 37, 117)";
+        default:
+          return "rgb(0, 28, 85)";
+      }
+    };
+
     return {
       opacity: withTiming(getOp(), { duration: 300 }),
       height: withTiming(getOp() * 50, { duration: 500 }),
+      backgroundColor: withTiming(getColor(), { duration: 400 }),
     };
   });
   return (
     <Animated.View
-      style={[
-        { backgroundColor: "green", width: 10, height: 10, borderRadius: 50 },
-        rStyleBtn,
-        rOp,
-      ]}
+      style={[{ width: 10, height: 10, borderRadius: 50 }, rStyleBtn, rOp]}
     ></Animated.View>
   );
 };

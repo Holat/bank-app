@@ -26,7 +26,7 @@ const Card = ({
       translateY.value = translationY;
     })
     .onUpdate(({ translationY }) => {
-      translateY.value = translationY + BB;
+      translateY.value = Math.max(Math.min(translationY + BB, 20), -40);
     })
     .onEnd(() => {
       const priorities = [
