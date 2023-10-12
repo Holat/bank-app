@@ -1,14 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import React, { useContext } from "react";
 import { BuildingLibraryIcon } from "react-native-heroicons/solid";
-import { Trans } from "./trans";
-import { ThemeContext } from "../constants/ThemeContextProvider";
 import Animated, {
   withTiming,
   useDerivedValue,
   interpolateColor,
   useAnimatedStyle,
 } from "react-native-reanimated";
+
+import { Trans } from "./trans";
+import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 
 const Card = ({ item }) => {
@@ -60,8 +61,10 @@ const Card = ({ item }) => {
           <Animated.Text
             style={[
               styles.boldTxt,
-              { color: item.debitOrCredit === "credit" ? "green" : "red" },
-              rTxtStyle,
+              {
+                color: item.debitOrCredit === "credit" ? "green" : "red",
+                opacity: 0.8,
+              },
             ]}
           >
             {item.debitOrCredit === "debit" ? "-" : "+"}${item.amount}
@@ -105,10 +108,12 @@ const Transactions = () => {
         Transactions
       </Animated.Text>
       <ScrollView
+        overScrollMode="never"
         contentContainerStyle={{
-          gap: 5,
-          paddingBottom: 10,
           borderRadius: 10,
+          backgroundColor:
+            theme === "dark" ? Colors.dark.card : Colors.light.card,
+          gap: 1,
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -124,27 +129,18 @@ export default Transactions;
 
 const styles = StyleSheet.create({
   cont: {
+    flex: 3,
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
     paddingVertical: 20,
-    paddingHorizontal: 5,
-    borderRadius: 10,
-    shadowColor: "#000",
-    backgroundColor: "white",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 2,
+    paddingHorizontal: 15,
   },
   header: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 5,
+    opacity: 0.8,
+    paddingLeft: 20,
   },
   icon: {
     backgroundColor: "#001c55",
