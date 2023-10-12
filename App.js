@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ThemeContextProvider from "./src/constants/ThemeContextProvider";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,6 +31,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         <ThemeContextProvider>
+          <StatusBar style="light" />
           <AppNavigation />
         </ThemeContextProvider>
       </View>
