@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import Animated, {
   FadeInDown,
   interpolate,
@@ -9,6 +9,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { Icon } from "../constants";
+import { ThemeContext } from "../constants/ThemeContextProvider";
+import { BlurView } from "expo-blur";
 
 const Card = ({
   index,
@@ -18,6 +20,7 @@ const Card = ({
   thirdPriority,
   priority,
 }) => {
+  const { showBalance } = useContext(ThemeContext);
   const BB = 0;
   const translateY = useSharedValue(BB);
 
@@ -92,7 +95,14 @@ const Card = ({
         <Text style={styles.cardTxt1}>{acct.name} Account</Text>
         <View>
           <Text style={styles.cardTxt1}>Balance: </Text>
-          <Text style={styles.cardTxt2}>${acct.balance}</Text>
+          {showBalance ? (
+            <Text style={styles.cardTxt2}>${acct.balance}</Text>
+          ) : (
+            <View style={styles.txtB}>
+              <Text style={[styles.cardTxt2]}>${acct.balance}</Text>
+              <BlurView style={styles.blurStyle} intensity={50}></BlurView>
+            </View>
+          )}
         </View>
         <Icon i={acct.id} style={styles.backG} />
       </Animated.View>
@@ -117,6 +127,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "500",
     fontFamily: "Roboto-Medium",
+    marginBottom: 3,
   },
 
   cardTxt2: {
@@ -133,5 +144,18 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "-45deg" }],
     zIndex: -1,
     opacity: 0.8,
+  },
+
+  txtB: {
+    overflow: "hidden",
+    borderRadius: 5,
+    flexDirection: "row",
+    alignSelf: "flex-start",
+  },
+
+  blurStyle: {
+    position: "absolute",
+    height: 35,
+    width: "100%",
   },
 });
