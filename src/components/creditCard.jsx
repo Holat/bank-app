@@ -23,7 +23,7 @@ const CreditCard = () => {
         }}
       >
         <View>
-          <Text style={{ fontFamily: "Teko", fontSize: 25 }}>
+          <Text style={{ fontFamily: "Teko", fontSize: 25, letterSpacing: 3 }}>
             2221 0012 3412 3456
           </Text>
           <View>
@@ -34,7 +34,7 @@ const CreditCard = () => {
               12/23
             </Text>
           </View>
-          <Text style={{ fontFamily: "RobotoBold", fontSize: 16 }}>
+          <Text style={{ fontFamily: "MonBold", fontSize: 16 }}>
             Alex Walter
           </Text>
         </View>
@@ -55,11 +55,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     overflow: "hidden",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 
   header: {
     fontSize: 18,
-    fontWeight: "400",
+    fontFamily: "MonBold",
+    color: "white",
   },
 
   chip: {
