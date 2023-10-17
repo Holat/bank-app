@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Switch } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Switch } from "react-native-gesture-handler";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import Animated, {
   useDerivedValue,
@@ -11,6 +11,7 @@ import Animated, {
   interpolateColor,
 } from "react-native-reanimated";
 import { Colors } from "../constants/Theme";
+import UseScreenCapture from "../hooks/useScreenCapture";
 
 const Settings = () => {
   const { top } = useSafeAreaInsets();
@@ -39,13 +40,41 @@ const Settings = () => {
     };
   });
 
+  const rHeaderStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.dark.bar, Colors.light.card]
+    );
+
+    return {
+      backgroundColor,
+    };
+  });
+
+  const rTxtStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [1, 0],
+      [Colors.dark.text, Colors.light.text]
+    );
+
+    return {
+      color,
+      opacity: 0.8,
+    };
+  });
+
   return (
     <Animated.View style={[{ flex: 1 }, rStyle]}>
       <Animated.View
-        style={{
-          padding: 18,
-          paddingTop: top + 10,
-        }}
+        style={[
+          {
+            padding: 18,
+            paddingTop: top + 10,
+          },
+          rHeaderStyle,
+        ]}
       >
         <View
           style={{
@@ -56,49 +85,52 @@ const Settings = () => {
           }}
         >
           <View>
-            <Text
+            <Animated.Text
               style={[
                 styles.headerTxt,
                 { fontSize: 20, fontWeight: "bold", color: "white" },
+                rTxtStyle,
               ]}
             >
               My Account,
-            </Text>
-            <Text
+            </Animated.Text>
+            <Animated.Text
               style={[
                 styles.headerTxt,
                 { fontSize: 14, fontWeight: "500", color: "white" },
+                rTxtStyle,
               ]}
             >
               Alex Walter
-            </Text>
+            </Animated.Text>
           </View>
           <View style={styles.iconCont}>
-            <UserCircleIcon color={"#001c55"} size={52} />
+            <UserCircleIcon color={"#023E8A"} size={52} />
           </View>
         </View>
         <View style={styles.switchCont}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>
+          <Animated.Text style={[{ fontWeight: "bold" }, rTxtStyle]}>
             Show Account Balance
-          </Text>
+          </Animated.Text>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={setShowBalance ? "#f5dd4b" : "#f4f3f4"}
+            thumbColor={showBalance ? "#023E8A" : "#f4f3f4"}
             onValueChange={() => setShowBalance((prev) => !prev)}
             value={showBalance}
           />
         </View>
         <View style={styles.switchCont}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>
+          <Animated.Text style={[{ fontWeight: "bold" }, rTxtStyle]}>
             Enable Dark Mode
-          </Text>
+          </Animated.Text>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={setShowBalance ? "#f5dd4b" : "#f4f3f4"}
+            thumbColor={themeToggle ? "#023E8A" : "#f4f3f4"}
             onValueChange={changeTheme}
             value={themeToggle}
           />
         </View>
+        <UseScreenCapture rTxtStyle={rTxtStyle} />
       </Animated.View>
     </Animated.View>
   );
