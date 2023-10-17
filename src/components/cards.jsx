@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     flex: 1,
-    marginTop: 30,
+    marginTop: 25,
     marginBottom: 20,
     gap: 10,
     paddingHorizontal: 15,

@@ -40,7 +40,7 @@ const TabBarIcon = ({ i, rStyle, color }) => {
       return (
         <Animated.View style={rStyle}>
           <UserCircleIcon
-            color={"#001c55"}
+            color={"#023E8A"}
             style={{
               backgroundColor: "white",
               borderRadius: 50,

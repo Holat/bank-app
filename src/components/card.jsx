@@ -99,8 +99,10 @@ const Card = ({
             <Text style={styles.cardTxt2}>${acct.balance}</Text>
           ) : (
             <View style={styles.txtB}>
-              <Text style={[styles.cardTxt2]}>${acct.balance}</Text>
-              <BlurView style={styles.blurStyle} intensity={50}></BlurView>
+              <Text style={[styles.cardTxt2, { opacity: 0.2 }]}>
+                ${acct.balance}
+              </Text>
+              <BlurView style={styles.blurStyle} intensity={100}></BlurView>
             </View>
           )}
         </View>
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
   cardTxt1: {
     color: "white",
     fontWeight: "500",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     marginBottom: 3,
   },
 

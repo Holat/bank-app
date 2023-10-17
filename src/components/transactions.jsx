@@ -62,8 +62,13 @@ const Card = ({ item }) => {
             style={[
               styles.boldTxt,
               {
-                color: item.debitOrCredit === "credit" ? "green" : "red",
-                opacity: 0.8,
+                color:
+                  item.debitOrCredit === "credit"
+                    ? "green"
+                    : item.debitOrCredit === "debit" && theme === "light"
+                    ? "black"
+                    : "white",
+                opacity: 0.7,
               },
             ]}
           >
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: 12,
     paddingHorizontal: 15,
   },
   header: {

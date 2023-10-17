@@ -63,7 +63,7 @@ const HomeScreen = () => {
               {
                 fontSize: 20,
                 fontWeight: "bold",
-                fontFamily: "Roboto-Medium",
+                fontFamily: "RobotoMedium",
               },
               rTxtStyle,
             ]}
@@ -71,13 +71,13 @@ const HomeScreen = () => {
             Hello Alex👋
           </Animated.Text>
           <Animated.Text
-            style={[{ fontFamily: "Roboto-Medium", fontSize: 12 }, rTxtStyle]}
+            style={[{ fontFamily: "RobotoMedium", fontSize: 12 }, rTxtStyle]}
           >
             Your financial dreamland ...
           </Animated.Text>
         </View>
         <UserCircleIcon
-          color={"#001c55"}
+          color={"#023E8A"}
           style={{
             backgroundColor:
               theme === "dark" ? Colors.dark.card : Colors.light.card,
