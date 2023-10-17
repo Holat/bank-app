@@ -15,6 +15,7 @@ import { Colors } from "../constants/Theme";
 
 const HomeScreen = () => {
   const { theme } = useContext(ThemeContext);
+
   const progress = useDerivedValue(() => {
     return theme === "light" ? withTiming(0) : withTiming(1);
   }, [theme]);
@@ -62,8 +63,7 @@ const HomeScreen = () => {
             style={[
               {
                 fontSize: 20,
-                fontWeight: "bold",
-                fontFamily: "RobotoMedium",
+                fontFamily: "RobotoBold",
               },
               rTxtStyle,
             ]}

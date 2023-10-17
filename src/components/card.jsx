@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
 
   cardTxt1: {
     color: "white",
-    fontWeight: "500",
     fontFamily: "RobotoMedium",
     marginBottom: 3,
   },
@@ -135,8 +134,7 @@ const styles = StyleSheet.create({
   cardTxt2: {
     color: "white",
     fontSize: 25,
-    fontWeight: "bold",
-    fontFamily: "Mon",
+    fontFamily: "MonBold",
   },
 
   backG: {

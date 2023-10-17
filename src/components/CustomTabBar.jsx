@@ -43,7 +43,6 @@ const Bar = ({ route, i, props, theme }) => {
           rStyle={rStyle}
           i={i}
         />
-        {/* <Text>{route.name}</Text> */}
         <Animated.View
           style={[
             {

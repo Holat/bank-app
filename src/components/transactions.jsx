@@ -78,7 +78,7 @@ const Card = ({ item }) => {
         <View>
           <Animated.Text
             style={[
-              { fontFamily: "Mon", fontWeight: "bold", opacity: 0.5 },
+              { fontFamily: "MonBold", opacity: 0.5, fontSize: 12 },
               rTxtStyle,
             ]}
           >
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     opacity: 0.8,
     paddingLeft: 20,
+    fontFamily: "MonBold",
   },
   icon: {
     backgroundColor: "#001c55",
@@ -160,8 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   boldTxt: {
-    fontWeight: "bold",
-    fontSize: 16,
-    fontFamily: "Mon",
+    fontSize: 15,
+    fontFamily: "MonBold",
   },
 });

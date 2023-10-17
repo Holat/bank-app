@@ -85,7 +85,7 @@ const QuickAccess = () => {
                 style={[
                   {
                     color: "white",
-                    fontWeight: "bold",
+                    fontFamily: "MonBold",
                     fontSize: 14,
                   },
                   rTxtStyle,

@@ -1,9 +1,12 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 const CreditCard = () => {
   return (
-    <View style={styles.cont}>
+    <ImageBackground
+      source={require("../../assets/47.jpg")}
+      style={styles.cont}
+    >
       <View>
         <Text style={styles.header}>Dream Bank</Text>
       </View>
@@ -19,19 +22,29 @@ const CreditCard = () => {
           marginTop: 20,
         }}
       >
-        <Text>22 22 2 2 2 2 2 2 2</Text>
         <View>
-          <Text></Text>
-          <Text></Text>
+          <Text style={{ fontFamily: "Teko", fontSize: 25 }}>
+            2221 0012 3412 3456
+          </Text>
+          <View>
+            <Text style={{ fontSize: 8, fontFamily: "RobotoRegular" }}>
+              VALID THRU
+            </Text>
+            <Text style={{ fontFamily: "RobotoRegular", fontSize: 16 }}>
+              12/23
+            </Text>
+          </View>
+          <Text style={{ fontFamily: "RobotoBold", fontSize: 16 }}>
+            Alex Walter
+          </Text>
         </View>
-        <Text></Text>
         <Image
           source={require("../../assets/mastercardlogo.png")}
           style={{ width: 60, height: 60, alignSelf: "flex-end" }}
           resizeMode="cover"
         />
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -39,10 +52,9 @@ export default CreditCard;
 
 const styles = StyleSheet.create({
   cont: {
-    backgroundColor: "white",
-    // height: 200,
     borderRadius: 10,
     padding: 15,
+    overflow: "hidden",
   },
 
   header: {
@@ -52,7 +64,12 @@ const styles = StyleSheet.create({
 
   chip: {
     width: 60,
-    height: 40,
+    height: 45,
     marginTop: 30,
+    marginLeft: 15,
+    borderColor: "#9D8A00",
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: "#EDBE00",
   },
 });
