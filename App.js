@@ -5,6 +5,7 @@ import ThemeContextProvider from "./src/constants/ThemeContextProvider";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { Text } from "react-native";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -30,7 +31,9 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <ThemeContextProvider>
-        <AppNavigation />
+        <BottomSheetModalProvider>
+          <AppNavigation />
+        </BottomSheetModalProvider>
       </ThemeContextProvider>
     </GestureHandlerRootView>
   );
