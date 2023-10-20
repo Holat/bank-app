@@ -1,6 +1,9 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import React, { useContext } from "react";
-import { BuildingLibraryIcon } from "react-native-heroicons/solid";
+import {
+  BuildingLibraryIcon,
+  RectangleStackIcon,
+} from "react-native-heroicons/solid";
 import Animated, {
   withTiming,
   useDerivedValue,
@@ -112,20 +115,46 @@ const Transactions = () => {
       <Animated.Text style={[styles.header, rTxtStyle]}>
         Transactions
       </Animated.Text>
-      <ScrollView
-        overScrollMode="never"
-        contentContainerStyle={{
-          borderRadius: 10,
-          backgroundColor:
-            theme === "dark" ? Colors.dark.card : Colors.light.card,
-          gap: 1,
-        }}
-        showsVerticalScrollIndicator={false}
-      >
-        {Trans.map((item, i) => (
-          <Card item={item} key={i} />
-        ))}
-      </ScrollView>
+      {Trans.length === 0 ? (
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <RectangleStackIcon
+            color={theme === "dark" ? "#2f2f2f" : "#cccccc"}
+            size={120}
+          />
+          <Text
+            style={{
+              color: theme === "dark" ? "#2f2f2f" : "#cccccc",
+              fontFamily: "RobotoBold",
+              fontSize: 20,
+              marginBottom: 50,
+            }}
+          >
+            No transaction
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          overScrollMode="never"
+          contentContainerStyle={{
+            borderRadius: 10,
+            backgroundColor:
+              theme === "dark" ? Colors.dark.card : Colors.light.card,
+            gap: 1,
+          }}
+          showsVerticalScrollIndicator={false}
+        >
+          {Trans.map((item, i) => (
+            <Card item={item} key={i} />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
