@@ -11,6 +11,7 @@ import {
 } from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
+import useCustomFonts from "../hooks/useCustomFonts";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
