@@ -1,10 +1,18 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
 import Animated, {
   useAnimatedStyle,
   withTiming,
   useDerivedValue,
   interpolateColor,
+  FadeIn,
+  FadeOut,
 } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -18,10 +26,12 @@ const SendScreen = () => {
   const { top } = useSafeAreaInsets();
   const { theme } = useContext(ThemeContext);
   const bottomSheetRef = useRef(null);
-  const [bankName, setBankName] = useState("Enter Bank Name");
-  const { name, err } = useAccountName();
-  const [acctNum, setAcctNum] = useState("");
-  const [bankCode, setBankCode] = useState("");
+  const [data, setData] = useState({
+    bankName: "Enter Bank Name",
+    bankCode: "",
+    acctNo: "",
+  });
+  const { name, err, loading } = useAccountName(data);
 
   useFocusEffect(
     useCallback(() => {
@@ -50,8 +60,7 @@ const SendScreen = () => {
   }, []);
 
   const handleTextInput = (text) => {
-    setAcctNum(text);
-    console.log(text);
+    setData({ ...data, acctNo: text });
   };
 
   return (
@@ -70,13 +79,14 @@ const SendScreen = () => {
             color: "white",
           }}
         >
-          {bankName}
+          {data.bankName}
         </Text>
       </View>
       <TextInput
         placeholder="Enter Account Number"
         placeholderTextColor={"white"}
         onChangeText={(text) => handleTextInput(text)}
+        keyboardType="numeric"
         style={{
           backgroundColor: "#3c3c3c",
           padding: 12,
@@ -84,28 +94,38 @@ const SendScreen = () => {
           borderRadius: 10,
         }}
       />
-      {err ? (
-        <Text style={[{ color: "red" }, styles.acctNameTxt]}>
-          Details Incorrect
-        </Text>
-      ) : (
-        <Text
-          style={[
-            {
-              color: "green",
-            },
-            styles.acctNameTxt,
-          ]}
-        >
-          {name}
-        </Text>
-      )}
+      <View style={{ flexDirection: "row", paddingLeft: 20, gap: 5 }}>
+        {(loading || name === "") && data.acctNo.length === 10 && !err ? (
+          <ActivityIndicator color={"green"} size={15} />
+        ) : null}
+        {err ? (
+          <Animated.Text
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[{ color: "red" }, styles.acctNameTxt]}
+          >
+            Details Incorrect
+          </Animated.Text>
+        ) : (
+          <Animated.Text
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[
+              {
+                color: "green",
+              },
+              styles.acctNameTxt,
+            ]}
+          >
+            {name}
+          </Animated.Text>
+        )}
+      </View>
 
       <BankListBottomSheet
         bottomSheetRef={bottomSheetRef}
         theme={theme}
-        setBankName={setBankName}
-        setBankCode={setBankCode}
+        setData={setData}
       />
     </Animated.View>
   );
@@ -121,6 +141,5 @@ const styles = StyleSheet.create({
   acctNameTxt: {
     textTransform: "capitalize",
     fontFamily: "MonBold",
-    marginLeft: 20,
   },
 });

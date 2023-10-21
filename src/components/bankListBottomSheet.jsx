@@ -17,18 +17,16 @@ import useBankList from "../hooks/useBankList";
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const BankListBottomSheet = ({
-  bottomSheetRef,
-  theme,
-  setBankName,
-  setBankCode,
-}) => {
+const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   const { searchList, handleSearch } = useBankList();
   const snapPoints = useMemo(() => ["50%", "80%"], []);
 
   const handlePress = (name, code) => {
-    setBankName(name);
-    setBankCode(code);
+    setData((prev) => ({
+      ...prev,
+      bankName: name,
+      bankCode: code,
+    }));
   };
 
   return (

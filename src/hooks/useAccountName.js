@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BANK_APIKEY } from "@env";
 
-const useAccountName = () => {
+const useAccountName = ({ bankCode: bank_code, acctNo: account_number }) => {
   const [name, setName] = useState("");
   const [err, setError] = useState(false);
-  const accountNumber = "0558108161";
-  const bankCode = "058";
+  const [loading, setLoading] = useState(true);
 
   const axiosInstance = axios.create({
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer xhP71VduKeKGxFxqwqR21SYhBXvF9yvhrPmuOAB53bd77a29`,
+      Authorization: `Bearer ${BANK_APIKEY}`,
     },
   });
 
@@ -18,30 +18,43 @@ const useAccountName = () => {
     axiosInstance
       .get("https://nubapi.com/api/verify", {
         params: {
-          account_number: accountNumber,
-          bank_code: bankCode,
+          account_number,
+          bank_code,
         },
       })
       .then((res) => {
-        setName(res.data.account_name);
-        setError(false);
-        console.log(res.data.status);
-        console.log(res.data.success);
+        if (res.data.success === false || res.data.status === false) {
+          setName("");
+          setLoading(true);
+          setError(true);
+          setLoading(false);
+        } else {
+          setError(false);
+          setName(res.data.account_name);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        setLoading(false);
         setName("");
         setError(true);
       });
   };
 
   useEffect(() => {
-    fetchName();
-  }, []);
+    if (account_number.trim().length === 10 && bank_code != "") {
+      fetchName();
+    } else {
+      setError(false);
+      setName("");
+      return;
+    }
+  }, [account_number, bank_code]);
 
   return {
     name,
     err,
+    loading,
   };
 };
 

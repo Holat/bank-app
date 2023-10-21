@@ -6,7 +6,7 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate("Tab");
+      navigation.replace("Tab");
     }, 1000);
   }, []);
 

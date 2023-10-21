@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
+// SplashScreen.preventAutoHideAsync();
 const useCustomFonts = () => {
   const [loaded] = useFonts({
     RobotoThin: require("../../assets/fonts/Roboto-Thin.ttf"),
@@ -14,7 +15,6 @@ const useCustomFonts = () => {
     Teko: require("../../assets/fonts/Teko-VariableFont_wght.ttf"),
   });
 
-  SplashScreen.preventAutoHideAsync();
   const onLayoutRootView = useCallback(async () => {
     if (loaded) {
       await SplashScreen.hideAsync();

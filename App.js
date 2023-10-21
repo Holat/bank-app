@@ -8,6 +8,8 @@ import useCustomFonts from "./src/hooks/useCustomFonts";
 export default function App() {
   const onLayoutRootView = useCustomFonts();
 
+  // console.log(BANK_APP);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <ThemeContextProvider>
