@@ -11,23 +11,31 @@ import {
 } from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
-import useCustomFonts from "../hooks/useCustomFonts";
+import { View, Dimensions } from "react-native";
 
+const { width, height } = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{ headerShown: false }}
-      tabBar={(props) => <CustomTabBar {...props} />}
+    <View
+      style={{
+        width,
+        height,
+      }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Send" component={SendScreen} />
-      <Tab.Screen name="Pay" component={PayScreen} />
-      <Tab.Screen name="Cards" component={CardScreen} />
-      <Tab.Screen name="Profile" component={Settings} />
-    </Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
+        tabBar={(props) => <CustomTabBar {...props} />}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Send" component={SendScreen} />
+        <Tab.Screen name="Pay" component={PayScreen} />
+        <Tab.Screen name="Cards" component={CardScreen} />
+        <Tab.Screen name="Profile" component={Settings} />
+      </Tab.Navigator>
+    </View>
   );
 };
 

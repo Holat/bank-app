@@ -34,6 +34,8 @@ const SendScreen = () => {
     bankName: "",
     bankCode: "",
     acctNo: "",
+    amount: 0,
+    amountStr: "",
   });
   const { name, err, loading } = useAccountName(data);
 
@@ -71,8 +73,35 @@ const SendScreen = () => {
     setData({ ...data, bankName: "", bankCode: "" });
   };
 
+  const handleAmountInput = (num) => {
+    if (num !== "") {
+      const formattedAmount = new Intl.NumberFormat().format(parseFloat(num));
+      setData({
+        ...data,
+        amount: parseFloat(num),
+        amountStr: formattedAmount,
+      });
+    } else {
+      setData({
+        ...data,
+        amount: 0,
+        amountStr: "",
+      });
+    }
+  };
+
   return (
-    <Animated.View style={[rStyle, { paddingTop: top + 20 }, styles.cont]}>
+    <Animated.View style={[rStyle, { paddingTop: top + 10 }, styles.cont]}>
+      <Text
+        style={[
+          {
+            color: "white",
+          },
+          styles.headerTxt,
+        ]}
+      >
+        Transfer Funds
+      </Text>
       <Pressable
         onPress={handlePresentModalOpen}
         style={{
@@ -121,14 +150,14 @@ const SendScreen = () => {
             exiting={FadeOut}
             onPress={handleClearAcct}
           >
-            <XCircleIcon color={"white"} />
+            <XCircleIcon color={"green"} />
           </AnimatedPressable>
         )}
       </Pressable>
       <TextInput
         placeholder="Enter Account Number"
         placeholderTextColor={"#cccccc"}
-        onChangeText={(text) => handleTextInput(text)}
+        onChangeText={handleTextInput}
         keyboardType="numeric"
         style={[
           {
@@ -141,8 +170,18 @@ const SendScreen = () => {
           styles.bankNamePlaceHolder,
         ]}
       />
-      <View style={{ flexDirection: "row", paddingLeft: 20, gap: 5 }}>
-        {(loading || name === "") && data.acctNo.length === 10 && !err ? (
+      <View
+        style={{
+          flexDirection: "row",
+          paddingLeft: 20,
+          gap: 5,
+          marginBottom: 5,
+        }}
+      >
+        {(loading || name === "") &&
+        data.acctNo.length === 10 &&
+        !err &&
+        data.bankCode !== "" ? (
           <ActivityIndicator color={"green"} size={15} />
         ) : null}
         {err ? (
@@ -168,7 +207,23 @@ const SendScreen = () => {
           </Animated.Text>
         )}
       </View>
-
+      <TextInput
+        placeholder="Enter Amount"
+        placeholderTextColor={"#cccccc"}
+        onChangeText={handleAmountInput}
+        // value={data.amountStr}
+        keyboardType="numeric"
+        style={[
+          {
+            backgroundColor: "#3c3c3c",
+            padding: 12,
+            marginHorizontal: 10,
+            borderRadius: 10,
+            color: "white",
+          },
+          styles.bankNamePlaceHolder,
+        ]}
+      />
       <BankListBottomSheet
         bottomSheetRef={bottomSheetRef}
         theme={theme}
@@ -183,6 +238,16 @@ export default SendScreen;
 const styles = StyleSheet.create({
   cont: {
     flex: 1,
+  },
+
+  headerTxt: {
+    fontSize: 16,
+    fontFamily: "MonBold",
+    textAlign: "center",
+    paddingBottom: 10,
+    marginBottom: 10,
+    borderBottomColor: "white",
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 
   acctNameTxt: {

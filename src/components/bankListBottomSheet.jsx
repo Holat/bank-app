@@ -19,7 +19,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   const { searchList, handleSearch } = useBankList();
-  const snapPoints = useMemo(() => ["50%", "80%"], []);
+  const snapPoints = useMemo(() => ["50%", "95%"], []);
 
   const handlePress = (name, code) => {
     setData((prev) => ({

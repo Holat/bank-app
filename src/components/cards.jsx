@@ -41,7 +41,7 @@ const Cards = () => {
           flexDirection: "column",
           justifyContent: "space-between",
           gap: 10,
-          paddingTop: 25,
+          paddingTop: 5,
         }}
       >
         {Accounts.map(({ id }, i) => {
@@ -68,9 +68,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     flex: 1,
-    marginTop: 25,
+    paddingTop: 45,
     marginBottom: 20,
     gap: 10,
     paddingHorizontal: 15,
+    // backgroundColor: "green",
   },
 });
