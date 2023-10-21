@@ -1,11 +1,10 @@
-import { StyleSheet, Text, Button, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
 import Animated, {
   useAnimatedStyle,
   withTiming,
   useDerivedValue,
   interpolateColor,
-  ZoomIn,
 } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -13,12 +12,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { BankListBottomSheet } from "../components";
+import useAccountName from "../hooks/useAccountName";
 
 const SendScreen = () => {
   const { top } = useSafeAreaInsets();
   const { theme } = useContext(ThemeContext);
   const bottomSheetRef = useRef(null);
   const [bankName, setBankName] = useState("Enter Bank Name");
+  const { name, err } = useAccountName();
+  const [acctNum, setAcctNum] = useState("");
+  const [bankCode, setBankCode] = useState("");
 
   useFocusEffect(
     useCallback(() => {
@@ -46,6 +49,11 @@ const SendScreen = () => {
     bottomSheetRef.current?.present();
   }, []);
 
+  const handleTextInput = (text) => {
+    setAcctNum(text);
+    console.log(text);
+  };
+
   return (
     <Animated.View style={[rStyle, { paddingTop: top + 20 }, styles.cont]}>
       <View
@@ -68,7 +76,7 @@ const SendScreen = () => {
       <TextInput
         placeholder="Enter Account Number"
         placeholderTextColor={"white"}
-        // onChangeText={(text) => handleSearch(text)}
+        onChangeText={(text) => handleTextInput(text)}
         style={{
           backgroundColor: "#3c3c3c",
           padding: 12,
@@ -76,10 +84,28 @@ const SendScreen = () => {
           borderRadius: 10,
         }}
       />
+      {err ? (
+        <Text style={[{ color: "red" }, styles.acctNameTxt]}>
+          Details Incorrect
+        </Text>
+      ) : (
+        <Text
+          style={[
+            {
+              color: "green",
+            },
+            styles.acctNameTxt,
+          ]}
+        >
+          {name}
+        </Text>
+      )}
+
       <BankListBottomSheet
         bottomSheetRef={bottomSheetRef}
         theme={theme}
         setBankName={setBankName}
+        setBankCode={setBankCode}
       />
     </Animated.View>
   );
@@ -90,5 +116,11 @@ export default SendScreen;
 const styles = StyleSheet.create({
   cont: {
     flex: 1,
+  },
+
+  acctNameTxt: {
+    textTransform: "capitalize",
+    fontFamily: "MonBold",
+    marginLeft: 20,
   },
 });
