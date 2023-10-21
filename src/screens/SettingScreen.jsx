@@ -11,13 +11,14 @@ import Animated, {
   interpolateColor,
 } from "react-native-reanimated";
 import { Colors } from "../constants/Theme";
-import UseScreenCapture from "../hooks/useScreenCapture";
+import useScreenCapture from "../hooks/useScreenCapture";
 
 const Settings = () => {
   const { top } = useSafeAreaInsets();
   const { theme, setTheme, showBalance, setShowBalance } =
     useContext(ThemeContext);
   const [themeToggle, setThemeToggle] = useState(true);
+  const { isActivated, handleScreenCapture } = useScreenCapture();
 
   const changeTheme = () => {
     setThemeToggle((prev) => !prev);
@@ -130,7 +131,17 @@ const Settings = () => {
             value={themeToggle}
           />
         </View>
-        <UseScreenCapture rTxtStyle={rTxtStyle} />
+        <View style={styles.switchCont}>
+          <Animated.Text style={[{ fontWeight: "bold" }, rTxtStyle]}>
+            Allow Screenshot
+          </Animated.Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isActivated ? "#023E8A" : "#f4f3f4"}
+            onValueChange={handleScreenCapture}
+            value={isActivated}
+          />
+        </View>
       </Animated.View>
     </Animated.View>
   );

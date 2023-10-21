@@ -1,5 +1,5 @@
 import AppNavigation from "./src/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ThemeContextProvider from "./src/constants/ThemeContextProvider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";

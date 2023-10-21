@@ -1,11 +1,9 @@
-import { View, Text, Alert } from "react-native";
-import { Switch } from "react-native-gesture-handler";
+import { Alert } from "react-native";
 import { useEffect, useState } from "react";
 import * as ScreenCapture from "expo-screen-capture";
 import * as MediaLibrary from "expo-media-library";
-import Animated from "react-native-reanimated";
 
-const UseScreenCapture = ({ rTxtStyle }) => {
+const useScreenCapture = () => {
   const [isActivated, setIsActivated] = useState(true);
 
   useEffect(() => {
@@ -39,25 +37,7 @@ const UseScreenCapture = ({ rTxtStyle }) => {
     else deactivate();
   };
 
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <Animated.Text style={[{ fontWeight: "bold" }, rTxtStyle]}>
-        Allow Screenshot
-      </Animated.Text>
-      <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isActivated ? "#023E8A" : "#f4f3f4"}
-        onValueChange={handleScreenCapture}
-        value={isActivated}
-      />
-    </View>
-  );
+  return { isActivated, handleScreenCapture };
 };
 
-export default UseScreenCapture;
+export default useScreenCapture;
