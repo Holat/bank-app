@@ -3,15 +3,16 @@ import React, { useContext, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
 import { Switch } from "react-native-gesture-handler";
-import { ThemeContext } from "../constants/ThemeContextProvider";
 import Animated, {
   useDerivedValue,
   useAnimatedStyle,
   withTiming,
   interpolateColor,
 } from "react-native-reanimated";
+
+import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
-import useScreenCapture from "../hooks/useScreenCapture";
+import { useScreenCapture } from "../hooks";
 
 const Settings = () => {
   const { top } = useSafeAreaInsets();

@@ -12,7 +12,7 @@ import { FlatList } from "react-native-gesture-handler";
 import Animated, { ZoomIn, ZoomOut, Layout } from "react-native-reanimated";
 
 import { Colors } from "../constants/Theme";
-import useBankList from "../hooks/useBankList";
+import { useBankList } from "../hooks";
 
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -32,7 +32,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   return (
     <BottomSheetModal
       ref={bottomSheetRef}
-      index={1}
+      index={0}
       snapPoints={snapPoints}
       handleIndicatorStyle={{ display: "none" }}
       backgroundStyle={{

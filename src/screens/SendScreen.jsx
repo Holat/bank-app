@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -15,19 +16,22 @@ import Animated, {
   FadeOut,
 } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
-
+import { ChevronDownIcon, XCircleIcon } from "react-native-heroicons/outline";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { BankListBottomSheet } from "../components";
-import useAccountName from "../hooks/useAccountName";
+import { useAccountName } from "../hooks";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const SendScreen = () => {
   const { top } = useSafeAreaInsets();
   const { theme } = useContext(ThemeContext);
   const bottomSheetRef = useRef(null);
   const [data, setData] = useState({
-    bankName: "Enter Bank Name",
+    bankName: "",
     bankCode: "",
     acctNo: "",
   });
@@ -55,7 +59,7 @@ const SendScreen = () => {
     };
   });
 
-  const handlePresentModalPress = useCallback(() => {
+  const handlePresentModalOpen = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
 
@@ -63,36 +67,79 @@ const SendScreen = () => {
     setData({ ...data, acctNo: text });
   };
 
+  const handleClearAcct = () => {
+    setData({ ...data, bankName: "", bankCode: "" });
+  };
+
   return (
     <Animated.View style={[rStyle, { paddingTop: top + 20 }, styles.cont]}>
-      <View
+      <Pressable
+        onPress={handlePresentModalOpen}
         style={{
           padding: 15,
           backgroundColor: "#3c3c3c",
           margin: 10,
           borderRadius: 10,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <Text
-          onPress={handlePresentModalPress}
-          style={{
-            color: "white",
-          }}
-        >
-          {data.bankName}
-        </Text>
-      </View>
+        {data.bankName === "" ? (
+          <Text
+            style={[
+              {
+                color: "#cccccc",
+              },
+              styles.bankNamePlaceHolder,
+            ]}
+          >
+            Enter Bank Name
+          </Text>
+        ) : (
+          <Animated.Text
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[
+              {
+                color: "white",
+              },
+              styles.bankNamePlaceHolder,
+            ]}
+          >
+            {data.bankName}
+          </Animated.Text>
+        )}
+
+        {data.bankCode === "" ? (
+          <Pressable onPress={handlePresentModalOpen}>
+            <ChevronDownIcon color={"white"} />
+          </Pressable>
+        ) : (
+          <AnimatedPressable
+            entering={FadeIn.delay(100)}
+            exiting={FadeOut}
+            onPress={handleClearAcct}
+          >
+            <XCircleIcon color={"white"} />
+          </AnimatedPressable>
+        )}
+      </Pressable>
       <TextInput
         placeholder="Enter Account Number"
-        placeholderTextColor={"white"}
+        placeholderTextColor={"#cccccc"}
         onChangeText={(text) => handleTextInput(text)}
         keyboardType="numeric"
-        style={{
-          backgroundColor: "#3c3c3c",
-          padding: 12,
-          margin: 10,
-          borderRadius: 10,
-        }}
+        style={[
+          {
+            backgroundColor: "#3c3c3c",
+            padding: 12,
+            margin: 10,
+            borderRadius: 10,
+            color: "white",
+          },
+          styles.bankNamePlaceHolder,
+        ]}
       />
       <View style={{ flexDirection: "row", paddingLeft: 20, gap: 5 }}>
         {(loading || name === "") && data.acctNo.length === 10 && !err ? (
@@ -141,5 +188,10 @@ const styles = StyleSheet.create({
   acctNameTxt: {
     textTransform: "capitalize",
     fontFamily: "MonBold",
+  },
+
+  bankNamePlaceHolder: {
+    fontFamily: "MonBold",
+    fontSize: 16,
   },
 });
