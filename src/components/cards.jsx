@@ -67,11 +67,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    flex: 1,
-    paddingTop: 45,
     marginBottom: 20,
+    marginTop: 30,
     gap: 10,
     paddingHorizontal: 15,
-    // backgroundColor: "green",
+    height: 180,
   },
 });

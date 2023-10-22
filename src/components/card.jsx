@@ -11,6 +11,7 @@ import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { Icon } from "../constants";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { BlurView } from "expo-blur";
+import priceToCurrency from "../utils/pricetoCurrency";
 
 const Card = ({
   index,
@@ -96,7 +97,7 @@ const Card = ({
         <View>
           <Text style={styles.cardTxt1}>Balance: </Text>
           {showBalance ? (
-            <Text style={styles.cardTxt2}>${acct.balance}</Text>
+            <Text style={styles.cardTxt2}>{priceToCurrency(acct.balance)}</Text>
           ) : (
             <View style={styles.txtB}>
               <Text style={[styles.cardTxt2, { opacity: 0.2 }]}>

@@ -1,33 +1,40 @@
 import { Alert } from "react-native";
 import { useEffect, useState } from "react";
-import * as ScreenCapture from "expo-screen-capture";
+import {
+  addScreenshotListener,
+  preventScreenCaptureAsync,
+  allowScreenCaptureAsync,
+} from "expo-screen-capture";
 import * as MediaLibrary from "expo-media-library";
 
 const useScreenCapture = () => {
   const [isActivated, setIsActivated] = useState(true);
-
-  useEffect(() => {
-    if (hasPermissions()) {
-      const subscription = ScreenCapture.addScreenshotListener(() => {
-        Alert("thanks for screen shotting");
-      });
-      return () => subscription.remove();
-    }
-  }, []);
 
   const hasPermissions = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
     return status === "granted";
   };
 
+  useEffect(() => {
+    const checkPermissions = async () => {
+      const hasPermission = await hasPermissions();
+      if (hasPermission) {
+        const subscription = addScreenshotListener(() => {
+          Alert.alert("Thanks for taking a screenshot");
+        });
+        return () => subscription.remove();
+      }
+    };
+
+    checkPermissions();
+  }, []);
+
   const activate = async () => {
-    await ScreenCapture.preventScreenCaptureAsync();
-    console.log("screen shot deactivated");
+    await preventScreenCaptureAsync("screen");
   };
 
   const deactivate = async () => {
-    await ScreenCapture.allowScreenCaptureAsync();
-    console.log("activated");
+    await allowScreenCaptureAsync("screen");
   };
 
   const handleScreenCapture = async () => {

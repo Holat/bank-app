@@ -43,6 +43,7 @@ const useBankList = () => {
   return {
     searchList,
     handleSearch,
+    setSearch,
   };
 };
 

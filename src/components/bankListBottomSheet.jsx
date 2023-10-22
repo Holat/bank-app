@@ -18,7 +18,7 @@ const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
-  const { searchList, handleSearch } = useBankList();
+  const { searchList, handleSearch, setSearch } = useBankList();
   const snapPoints = useMemo(() => ["50%", "95%"], []);
 
   const handlePress = (name, code) => {
@@ -27,6 +27,8 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
       bankName: name,
       bankCode: code,
     }));
+    setSearch("");
+    bottomSheetRef.current?.close();
   };
 
   return (
@@ -36,31 +38,25 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
       snapPoints={snapPoints}
       handleIndicatorStyle={{ display: "none" }}
       backgroundStyle={{
-        backgroundColor:
-          theme === "dark" ? Colors.dark.card : Colors.light.card,
+        backgroundColor: theme === "dark" ? Colors.dark.card : "#f1f5f9",
       }}
     >
       <Text
-        style={{
-          color: "white",
-          marginLeft: 20,
-          fontFamily: "MonBold",
-          fontSize: 15,
-        }}
+        style={[
+          { color: theme === "dark" ? Colors.dark.text : Colors.light.text },
+          styles.headerTxt,
+        ]}
       >
         Banks List
       </Text>
       <TextInput
         placeholder="Search"
-        placeholderTextColor={"white"}
+        placeholderTextColor={"#1c1c1c"}
         onChangeText={(text) => handleSearch(text)}
-        style={{
-          backgroundColor: "#3c3c3c",
-          padding: 10,
-          marginHorizontal: 20,
-          borderRadius: 10,
-          marginVertical: 10,
-        }}
+        style={[
+          { backgroundColor: theme === "dark" ? Colors.dark.card : "white" },
+          styles.txtInput,
+        ]}
       />
       <AnimatedFlatlist
         data={searchList}
@@ -77,16 +73,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
               gap: 10,
             }}
           >
-            <View
-              style={{
-                backgroundColor: "#cccccc",
-                borderRadius: 10,
-                width: 45,
-                aspectRatio: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <View style={[{ backgroundColor: "white" }, styles.cardCont]}>
               <Image
                 source={{ uri: item.logo }}
                 resizeMode="cover"
@@ -100,7 +87,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
             <Text
               style={{
                 fontFamily: "MonBold",
-                color: "white",
+                color: theme === "dark" ? Colors.dark.text : Colors.light.text,
                 fontSize: 16,
               }}
             >
@@ -122,4 +109,31 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
 
 export default BankListBottomSheet;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  headerTxt: {
+    marginLeft: 20,
+    fontFamily: "MonBold",
+    fontSize: 15,
+  },
+  txtInput: {
+    padding: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 10,
+    elevation: 1,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+
+  cardCont: {
+    borderRadius: 10,
+    width: 45,
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

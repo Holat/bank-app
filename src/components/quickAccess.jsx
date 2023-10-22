@@ -29,24 +29,8 @@ const QuickAccess = () => {
     };
   });
   return (
-    <View
-      style={{
-        marginBottom: 15,
-        paddingHorizontal: 15,
-      }}
-    >
-      <Animated.Text
-        style={[
-          {
-            color: "white",
-            fontSize: 12,
-            marginBottom: 5,
-            paddingLeft: 5,
-            opacity: 0.5,
-          },
-          rTxtStyle,
-        ]}
-      >
+    <View style={styles.cont}>
+      <Animated.Text style={[styles.quickAHeader, rTxtStyle]}>
         Quick Access
       </Animated.Text>
       <ScrollView
@@ -60,37 +44,16 @@ const QuickAccess = () => {
           return (
             <View
               key={name}
-              style={{
-                borderRadius: 5,
-                backgroundColor:
-                  theme === "dark" ? Colors.dark.card : Colors.light.card,
-                paddingVertical: 12,
-                paddingHorizontal: 20,
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 10,
-
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
+              style={[
+                {
+                  backgroundColor:
+                    theme === "dark" ? Colors.dark.card : Colors.light.card,
                 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                // elevation: 5,
-              }}
+                styles.cardCont,
+              ]}
             >
               <QuickAccessIcon color={color} i={i} />
-              <Animated.Text
-                style={[
-                  {
-                    color: "white",
-                    fontFamily: "MonBold",
-                    fontSize: 14,
-                  },
-                  rTxtStyle,
-                ]}
-              >
+              <Animated.Text style={[styles.txt, rTxtStyle]}>
                 {name}
               </Animated.Text>
             </View>
@@ -103,4 +66,39 @@ const QuickAccess = () => {
 
 export default QuickAccess;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cont: {
+    marginBottom: 15,
+    paddingHorizontal: 15,
+  },
+
+  quickAHeader: {
+    color: "white",
+    fontSize: 12,
+    marginBottom: 5,
+    paddingLeft: 5,
+    opacity: 0.5,
+  },
+
+  cardCont: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    borderRadius: 5,
+  },
+
+  txt: {
+    color: "white",
+    fontFamily: "MonBold",
+    fontSize: 14,
+  },
+});

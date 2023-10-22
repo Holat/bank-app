@@ -163,7 +163,7 @@ export default Transactions;
 
 const styles = StyleSheet.create({
   cont: {
-    flex: 3,
+    // flex: 1,
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
