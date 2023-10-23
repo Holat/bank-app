@@ -7,7 +7,13 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  EntryExitTransition,
+  FadeIn,
+  FadeOut,
+  FadeOutUp,
+  Layout,
+} from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 import { ChevronDownIcon, XCircleIcon } from "react-native-heroicons/outline";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -32,6 +38,7 @@ const SendScreen = () => {
     amount: 0,
     amountStr: "",
     remark: "",
+    debitAcct: "",
   });
   const { name, err, loading } = useAccountName(data);
 
@@ -99,7 +106,7 @@ const SendScreen = () => {
       >
         Transfer Funds
       </Text>
-      <ScrollView>
+      <Animated.ScrollView style={{ flexGrow: 1 }}>
         <Pressable
           onPress={handlePresentModalOpen}
           style={[
@@ -165,33 +172,48 @@ const SendScreen = () => {
             styles.txtInput,
           ]}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            paddingLeft: 20,
-            gap: 5,
-            marginBottom: 5,
-          }}
-        >
-          {loading && <ActivityIndicator color={"green"} size={15} />}
-          {err ? (
-            <Animated.Text
-              entering={FadeIn}
-              exiting={FadeOut}
-              style={[{ color: "red" }, styles.acctNameTxt]}
-            >
-              Details Incorrect
-            </Animated.Text>
-          ) : (
-            <Animated.Text
-              entering={FadeIn}
-              exiting={FadeOut}
-              style={[{ color: "green" }, styles.acctNameTxt]}
-            >
-              {name}
-            </Animated.Text>
-          )}
-        </View>
+        {data.acctNo.length === 10 && data.bankCode !== "" && (
+          <View
+            style={{
+              flexDirection: "row",
+              paddingLeft: 20,
+              gap: 5,
+              marginBottom: 5,
+            }}
+          >
+            {loading && <ActivityIndicator color={"green"} size={15} />}
+            {err ? (
+              <Animated.Text
+                entering={FadeIn}
+                style={[{ color: "red" }, styles.acctNameTxt]}
+              >
+                Details Incorrect
+              </Animated.Text>
+            ) : (
+              <Animated.Text
+                entering={FadeIn}
+                style={[{ color: "green" }, styles.acctNameTxt]}
+              >
+                {name}
+              </Animated.Text>
+            )}
+          </View>
+        )}
+
+        <TextInput
+          placeholder="Enter account to debit"
+          placeholderTextColor={"#cccccc"}
+          onChangeText={(text) => setData({ ...data, debitAcct: text })}
+          value={data.amountStr}
+          keyboardType="numeric"
+          style={[
+            styles.txtInput,
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+              backgroundColor,
+            },
+          ]}
+        />
         <TextInput
           placeholder="Enter Amount"
           placeholderTextColor={"#cccccc"}
@@ -236,7 +258,7 @@ const SendScreen = () => {
             Send Money
           </Text>
         </Pressable>
-      </ScrollView>
+      </Animated.ScrollView>
       <BankListBottomSheet
         bottomSheetRef={bottomSheetRef}
         theme={theme}

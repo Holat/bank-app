@@ -34,7 +34,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   return (
     <BottomSheetModal
       ref={bottomSheetRef}
-      index={0}
+      index={1}
       snapPoints={snapPoints}
       handleIndicatorStyle={{ display: "none" }}
       backgroundStyle={{
@@ -54,7 +54,10 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
         placeholderTextColor={"#1c1c1c"}
         onChangeText={(text) => handleSearch(text)}
         style={[
-          { backgroundColor: theme === "dark" ? Colors.dark.card : "white" },
+          {
+            color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            backgroundColor: theme === "dark" ? "#292929" : "white",
+          },
           styles.txtInput,
         ]}
       />
