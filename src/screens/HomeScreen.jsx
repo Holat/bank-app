@@ -28,7 +28,6 @@ const HomeScreen = () => {
     );
 
     return {
-      flex: 1,
       backgroundColor,
     };
   });
@@ -47,7 +46,7 @@ const HomeScreen = () => {
 
   const { top } = useSafeAreaInsets();
   return (
-    <Animated.View style={[{ paddingTop: top }, rStyle]}>
+    <Animated.View style={[{ paddingTop: top, flex: 1 }, rStyle]}>
       <View
         style={[
           styles.flex,

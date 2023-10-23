@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, createContext } from "react";
+import { View } from "react-native";
 
 export const ThemeContext = createContext();
 
@@ -11,7 +12,7 @@ const ThemeContextProvider = (props) => {
   return (
     <ThemeContext.Provider value={contextValue}>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
-      {props.children}
+      <View style={{ flex: 1 }}>{props.children}</View>
     </ThemeContext.Provider>
   );
 };

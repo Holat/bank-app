@@ -37,7 +37,7 @@ const SendScreen = () => {
 
   const borderColor =
     theme === "dark" ? Colors.dark.primary : Colors.light.primary;
-  const backgroundColor = theme === "dark" ? Colors.dark.card : "white";
+  const backgroundColor = theme === "dark" ? "#292929" : "white";
 
   useFocusEffect(
     useCallback(() => {
@@ -47,6 +47,10 @@ const SendScreen = () => {
 
   const handlePresentModalOpen = useCallback(() => {
     bottomSheetRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetRef.current?.close();
   }, []);
 
   const handleTextInput = (text) => {
@@ -149,7 +153,7 @@ const SendScreen = () => {
           placeholder="Enter Account Number"
           placeholderTextColor={"#cccccc"}
           onChangeText={handleTextInput}
-          onFocus={() => bottomSheetRef?.current.close()}
+          onFocus={handlePresentModalClose}
           keyboardType="numeric"
           style={[
             {

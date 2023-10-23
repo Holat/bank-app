@@ -12,17 +12,19 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
 import { View, Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = () => {
+  const { top } = useSafeAreaInsets();
   return (
     <View
       style={{
         width,
-        height,
+        height: height + top,
       }}
     >
       <Tab.Navigator
