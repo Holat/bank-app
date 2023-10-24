@@ -11,7 +11,7 @@ const Colors = {
     background: "#FFFFFF",
     circle: "#fff",
     text: "#000000",
-    card: "#e1e1e1",
+    card: "#f2f2f2",
     primary: "#001c55",
   },
 };

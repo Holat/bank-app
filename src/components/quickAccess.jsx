@@ -38,6 +38,7 @@ const QuickAccess = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           gap: 15,
+          padding: 5,
         }}
       >
         {QuickAccessList.map(({ name, color }, i) => {
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
   quickAHeader: {
     color: "white",
     fontSize: 12,
-    marginBottom: 5,
     paddingLeft: 5,
     opacity: 0.5,
   },
@@ -86,14 +86,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-
+    overflow: "hidden",
+    borderRadius: 5,
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    borderRadius: 5,
+
+    elevation: 2,
   },
 
   txt: {

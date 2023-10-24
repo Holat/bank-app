@@ -1,14 +1,12 @@
-import {
-  BanknotesIcon,
-  WalletIcon,
-  CreditCardIcon,
-} from "react-native-heroicons/outline";
+import { WalletIcon, CreditCardIcon } from "react-native-heroicons/outline";
 import {
   WifiIcon,
   PhoneIcon,
   LightBulbIcon,
   GiftIcon,
   TruckIcon,
+  BanknotesIcon,
+  AcademicCapIcon,
 } from "react-native-heroicons/solid";
 
 const Accounts = [
@@ -58,6 +56,10 @@ const QuickAccessIcon = ({ i, color }) => {
       return <GiftIcon color={color} size={20} />;
     case 4:
       return <TruckIcon color={color} size={20} />;
+    case 5:
+      return <BanknotesIcon color={color} size={20} />;
+    case 6:
+      return <AcademicCapIcon color={color} size={20} />;
     default:
       return <PhoneIcon color={color} size={20} />;
   }
@@ -72,5 +74,7 @@ const QuickAccessList = [
   { name: "Bill", color: "#F7675A" },
   { name: "GiftCard", color: "#FFC83F" },
   { name: "Logistics", color: "#F72585" },
+  { name: "Betting", color: "green" },
+  { name: "Tuition", color: "red" },
 ];
 export { Accounts, Icon, QuickAccessList, QuickAccessIcon };
