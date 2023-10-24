@@ -36,6 +36,7 @@ const QuickAccess = () => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        overScrollMode="never"
         contentContainerStyle={{
           gap: 15,
           padding: 5,

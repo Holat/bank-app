@@ -44,7 +44,7 @@ const SendScreen = () => {
 
   const borderColor =
     theme === "dark" ? Colors.dark.primary : Colors.light.primary;
-  const backgroundColor = theme === "dark" ? "#292929" : "white";
+  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
 
   useFocusEffect(
     useCallback(() => {
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 2,
+    elevation: 1,
   },
 
   sendBtn: {

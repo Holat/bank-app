@@ -49,7 +49,7 @@ const Bar = ({ route, i, props, theme }) => {
               width: 8,
               height: 8,
               borderRadius: 50,
-              backgroundColor: isActive ? "#023e8a" : "#202020",
+              backgroundColor: isActive ? "#001c55" : "#202020",
             },
             rIconStyle,
           ]}
