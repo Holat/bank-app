@@ -7,13 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
-import Animated, {
-  EntryExitTransition,
-  FadeIn,
-  FadeOut,
-  FadeOutUp,
-  Layout,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 import { ChevronDownIcon, XCircleIcon } from "react-native-heroicons/outline";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

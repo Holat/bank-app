@@ -1,9 +1,9 @@
-import AppNavigation from "./src/navigation";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ThemeContextProvider from "./src/constants/ThemeContextProvider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useCustomFonts } from "./src/hooks";
+import AppNavigation from "./src/navigation";
 
 export default function App() {
   const onLayoutRootView = useCustomFonts();
