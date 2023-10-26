@@ -46,7 +46,7 @@ const SendScreen = () => {
     }, [])
   );
 
-  const handlePresentModalOpen = useCallback(() => {
+  const handlePresentModal = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
 
@@ -102,17 +102,13 @@ const SendScreen = () => {
       </Text>
       <Animated.ScrollView style={{ flexGrow: 1 }}>
         <Pressable
-          onPress={handlePresentModalOpen}
+          onPress={handlePresentModal}
           style={[
             {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingVertical: 20,
               borderColor,
-              borderWidth: 1,
               backgroundColor,
             },
+            styles.pressableInput,
             styles.txtInput,
           ]}
         >
@@ -137,7 +133,7 @@ const SendScreen = () => {
           )}
 
           {data.bankCode === "" ? (
-            <Pressable onPress={handlePresentModalOpen}>
+            <Pressable onPress={handlePresentModal}>
               <ChevronDownIcon color={"white"} />
             </Pressable>
           ) : (
@@ -194,20 +190,51 @@ const SendScreen = () => {
           </View>
         )}
 
-        <TextInput
-          placeholder="Enter account to debit"
-          placeholderTextColor={"#cccccc"}
-          onChangeText={(text) => setData({ ...data, debitAcct: text })}
-          value={data.amountStr}
-          keyboardType="numeric"
+        <Pressable
+          onPress={handlePresentModal}
           style={[
-            styles.txtInput,
             {
-              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+              borderColor,
               backgroundColor,
             },
+            styles.pressableInput,
+            styles.txtInput,
           ]}
-        />
+        >
+          {data.bankName === "" ? (
+            <Text style={[{ color: "#cccccc" }, styles.bankNamePlaceHolder]}>
+              Bank Account to Debit
+            </Text>
+          ) : (
+            <Animated.Text
+              entering={FadeIn}
+              exiting={FadeOut}
+              style={[
+                {
+                  color:
+                    theme === "dark" ? Colors.dark.text : Colors.light.text,
+                },
+                styles.bankNamePlaceHolder,
+              ]}
+            >
+              {data.bankName}
+            </Animated.Text>
+          )}
+
+          {data.bankCode === "" ? (
+            <Pressable onPress={handlePresentModal}>
+              <ChevronDownIcon color={"white"} />
+            </Pressable>
+          ) : (
+            <AnimatedPressable
+              entering={FadeIn.delay(100)}
+              exiting={FadeOut}
+              onPress={handleClearAcct}
+            >
+              <XCircleIcon color={"green"} />
+            </AnimatedPressable>
+          )}
+        </Pressable>
         <TextInput
           placeholder="Enter Amount"
           placeholderTextColor={"#cccccc"}
@@ -265,6 +292,13 @@ const SendScreen = () => {
 export default SendScreen;
 
 const styles = StyleSheet.create({
+  pressableInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 20,
+    borderWidth: 1,
+  },
   headerTxt: {
     fontSize: 16,
     fontFamily: "MonBold",
