@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 const useCustomFonts = () => {
   const [loaded] = useFonts({
     RobotoThin: require("../../assets/fonts/Roboto-Thin.ttf"),

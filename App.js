@@ -8,9 +8,6 @@ import AppNavigation from "./src/navigation";
 
 export default function App() {
   const onLayoutRootView = useCustomFonts();
-
-  // console.log(BANK_APP);
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <ThemeContextProvider>

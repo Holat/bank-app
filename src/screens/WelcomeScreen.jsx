@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from "react-native";
 import React, { useEffect } from "react";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
@@ -27,14 +27,14 @@ const WelcomeScreen = ({ navigation }) => {
         </Animated.View>
         <View style={[styles.flex, { flexDirection: "row" }]}>
           <Animated.Text
-            entering={FadeIn.duration(500).springify()}
+            entering={FadeInDown.duration(500).springify()}
             style={styles.logoTxt}
           >
             Dream
           </Animated.Text>
           <Animated.Text
             style={styles.logoTxt}
-            entering={FadeIn.springify(400).delay(100)}
+            entering={FadeInDown.duration(500).delay(100).springify()}
           >
             {" "}
             Bank
