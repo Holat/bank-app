@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bank-app",
-    "slug": "bank-app",
+    "name": "Bank-App",
+    "slug": "Bank-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

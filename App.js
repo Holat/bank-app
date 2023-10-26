@@ -1,7 +1,8 @@
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import ThemeContextProvider from "./src/constants/ThemeContextProvider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+
+import ThemeContextProvider from "./src/constants/ThemeContextProvider";
 import { useCustomFonts } from "./src/hooks";
 import AppNavigation from "./src/navigation";
 
