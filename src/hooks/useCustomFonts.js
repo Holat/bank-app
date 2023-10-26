@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-// SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 const useCustomFonts = () => {
   const [loaded] = useFonts({
     RobotoThin: require("../../assets/fonts/Roboto-Thin.ttf"),
@@ -13,6 +13,7 @@ const useCustomFonts = () => {
     Mon: require("../../assets/fonts/Montserrat-VariableFont_wght.ttf"),
     MonBold: require("../../assets/fonts/Montserrat-Bold.ttf"),
     Teko: require("../../assets/fonts/Teko-VariableFont_wght.ttf"),
+    Agbalumo: require("../../assets/fonts/Agbalumo-Regular.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

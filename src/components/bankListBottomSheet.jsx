@@ -5,11 +5,18 @@ import {
   View,
   Image,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import React, { useMemo } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FlatList } from "react-native-gesture-handler";
-import Animated, { ZoomIn, ZoomOut, Layout } from "react-native-reanimated";
+import Animated, {
+  ZoomIn,
+  ZoomOut,
+  Layout,
+  FadeIn,
+  FadeOut,
+} from "react-native-reanimated";
 
 import { Colors } from "../constants/Theme";
 import { useBankList } from "../hooks";
@@ -18,7 +25,7 @@ const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
-  const { searchList, handleSearch, setSearch } = useBankList();
+  const { searchList, handleSearch, setSearch, loading, error } = useBankList();
   const snapPoints = useMemo(() => ["50%", "95%"], []);
 
   const handlePress = (name, code) => {
@@ -61,6 +68,26 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
           styles.txtInput,
         ]}
       />
+      {loading && (
+        <ActivityIndicator
+          color={"green"}
+          size={30}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: [{ translateX: -15 }],
+          }}
+        />
+      )}
+      {error.Error ? (
+        <Animated.Text
+          entering={FadeIn}
+          style={[{ color: "red" }, styles.acctNameTxt]}
+        >
+          {error.message}
+        </Animated.Text>
+      ) : null}
       <AnimatedFlatlist
         data={searchList}
         keyExtractor={(item) => item.code}
@@ -130,6 +157,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+  },
+
+  acctNameTxt: {
+    textTransform: "capitalize",
+    fontFamily: "MonBold",
+    paddingLeft: 20,
   },
 
   cardCont: {

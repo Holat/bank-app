@@ -1,11 +1,14 @@
-import { WalletIcon, CreditCardIcon } from "react-native-heroicons/outline";
+import {
+  WalletIcon,
+  CreditCardIcon,
+  BanknotesIcon,
+} from "react-native-heroicons/outline";
 import {
   WifiIcon,
   PhoneIcon,
   LightBulbIcon,
   GiftIcon,
   TruckIcon,
-  BanknotesIcon,
   AcademicCapIcon,
 } from "react-native-heroicons/solid";
 

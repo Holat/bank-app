@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 const useBankList = () => {
   const [list, setList] = useState();
   const [search, setSearch] = useState("");
+  const [error, setError] = useState({ Error: false, message: "" });
+  const [loading, setLoading] = useState(false);
   const [searchList, setSearchList] = useState(list);
 
   const handleSearch = (text) => {
@@ -11,6 +13,7 @@ const useBankList = () => {
   };
 
   const fetchData = async () => {
+    setLoading(true);
     axios({
       method: "get",
       url: "https://nigerianbanks.xyz",
@@ -20,7 +23,10 @@ const useBankList = () => {
         setList(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        setError({ Error: true, message: "Check your network connection" });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -44,6 +50,8 @@ const useBankList = () => {
     searchList,
     handleSearch,
     setSearch,
+    loading,
+    error,
   };
 };
 

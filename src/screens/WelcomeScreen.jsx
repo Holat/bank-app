@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import React, { useEffect } from "react";
-import { BuildingLibraryIcon } from "react-native-heroicons/outline";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
@@ -13,19 +12,29 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={[styles.cont, styles.flex]}>
       <View style={[styles.logoCont, styles.flex]}>
-        <View style={[styles.logo, styles.flex]}>
-          <BuildingLibraryIcon color={"#0077b6"} size={75} />
-        </View>
+        <Animated.View
+          style={[styles.logo, styles.flex]}
+          entering={FadeIn.delay(200)}
+        >
+          <Image
+            source={require("../../assets/tree.png")}
+            style={{
+              width: 200,
+              height: 200,
+            }}
+            resizeMode="cover"
+          />
+        </Animated.View>
         <View style={[styles.flex, { flexDirection: "row" }]}>
           <Animated.Text
-            entering={FadeInDown.duration(500).springify()}
+            entering={FadeIn.duration(500).springify()}
             style={styles.logoTxt}
           >
             Dream
           </Animated.Text>
           <Animated.Text
             style={styles.logoTxt}
-            entering={FadeInDown.springify(400).delay(100)}
+            entering={FadeIn.springify(400).delay(100)}
           >
             {" "}
             Bank
@@ -40,7 +49,7 @@ export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   cont: {
-    backgroundColor: "#023e8a",
+    backgroundColor: "white",
     flex: 1,
   },
 
@@ -60,10 +69,10 @@ const styles = StyleSheet.create({
   },
 
   logoTxt: {
-    color: "white",
+    color: "#001c55",
     textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 40,
+    fontSize: 45,
     marginTop: 10,
+    fontFamily: "Agbalumo",
   },
 });
