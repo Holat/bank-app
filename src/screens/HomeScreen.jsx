@@ -68,7 +68,7 @@ const HomeScreen = () => {
               rTxtStyle,
             ]}
           >
-            Hello Alex👋
+            Hello Alex 👋
           </Animated.Text>
           <Animated.Text
             style={[{ fontFamily: "MonBold", fontSize: 12 }, rTxtStyle]}

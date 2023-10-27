@@ -11,7 +11,6 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 import { ChevronDownIcon, XCircleIcon } from "react-native-heroicons/outline";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView } from "react-native-gesture-handler";
 
 import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
@@ -169,6 +168,9 @@ const SendScreen = () => {
           Account Number
         </Text>
         <TextInput
+          selectionColor={
+            theme === "dark" ? Colors.dark.text : Colors.light.text
+          }
           placeholder="Enter Account Number"
           placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           onChangeText={handleTextInput}
@@ -279,6 +281,9 @@ const SendScreen = () => {
           Amount(₦)
         </Text>
         <TextInput
+          selectionColor={
+            theme === "dark" ? Colors.dark.text : Colors.light.text
+          }
           placeholder="Enter Amount"
           placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           onChangeText={handleAmountInput}
@@ -305,6 +310,9 @@ const SendScreen = () => {
           Remarks
         </Text>
         <TextInput
+          selectionColor={
+            theme === "dark" ? Colors.dark.text : Colors.light.text
+          }
           placeholder="Remarks"
           placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           numberOfLines={5}

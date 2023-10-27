@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ActivityIndicator,
+  Touchable,
 } from "react-native";
 import React, { useMemo } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -20,13 +21,25 @@ import Animated, {
 
 import { Colors } from "../constants/Theme";
 import { useBankList } from "../hooks";
+import { BlurView } from "expo-blur";
 
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+const BackDrop = ({ style, bottomSheetRef }) => {
+  return (
+    <AnimatedPressable
+      style={[style]}
+      onPress={() => bottomSheetRef.current?.close()}
+    >
+      <Animated.View></Animated.View>
+    </AnimatedPressable>
+  );
+};
+
 const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   const { searchList, handleSearch, setSearch, loading, error } = useBankList();
-  const snapPoints = useMemo(() => ["50%", "95%"], []);
+  const snapPoints = useMemo(() => ["50%", "62%", "95%"], []);
 
   const handlePress = (name, code) => {
     setData((prev) => ({
@@ -40,6 +53,9 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
 
   return (
     <BottomSheetModal
+      backdropComponent={(props) => (
+        <BackDrop {...props} bottomSheetRef={bottomSheetRef} />
+      )}
       ref={bottomSheetRef}
       index={1}
       snapPoints={snapPoints}
@@ -57,8 +73,9 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
         Banks List
       </Text>
       <TextInput
+        selectionColor={theme === "dark" ? Colors.dark.text : Colors.light.text}
         placeholder="Search"
-        placeholderTextColor={"#1c1c1c"}
+        placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
         onChangeText={(text) => handleSearch(text)}
         style={[
           {
@@ -150,6 +167,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 10,
     marginVertical: 10,
+    fontFamily: "MonBold",
+    fontSize: 16,
     elevation: 1,
     shadowOffset: {
       width: 0,
