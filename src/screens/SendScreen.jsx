@@ -36,8 +36,6 @@ const SendScreen = () => {
   });
   const { name, err, loading } = useAccountName(data);
 
-  const borderColor =
-    theme === "dark" ? Colors.dark.primary : Colors.light.primary;
   const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
 
   useFocusEffect(
@@ -93,7 +91,7 @@ const SendScreen = () => {
         style={[
           {
             color: theme === "dark" ? Colors.dark.text : Colors.light.text,
-            borderBottomColor: borderColor,
+            borderBottomColor: "grey",
           },
           styles.headerTxt,
         ]}
@@ -101,11 +99,20 @@ const SendScreen = () => {
         Transfer Funds
       </Text>
       <Animated.ScrollView style={{ flexGrow: 1 }}>
+        <Text
+          style={[
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            },
+            styles.label,
+          ]}
+        >
+          Bank Name
+        </Text>
         <Pressable
           onPress={handlePresentModal}
           style={[
             {
-              borderColor,
               backgroundColor,
             },
             styles.pressableInput,
@@ -113,7 +120,12 @@ const SendScreen = () => {
           ]}
         >
           {data.bankName === "" ? (
-            <Text style={[{ color: "#cccccc" }, styles.bankNamePlaceHolder]}>
+            <Text
+              style={[
+                { color: theme === "dark" ? "#cccccc33" : "#00000033" },
+                styles.bankNamePlaceHolder,
+              ]}
+            >
               Enter Bank Name
             </Text>
           ) : (
@@ -146,17 +158,25 @@ const SendScreen = () => {
             </AnimatedPressable>
           )}
         </Pressable>
+        <Text
+          style={[
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            },
+            styles.label,
+          ]}
+        >
+          Account Number
+        </Text>
         <TextInput
           placeholder="Enter Account Number"
-          placeholderTextColor={"#cccccc"}
+          placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           onChangeText={handleTextInput}
           onFocus={handlePresentModalClose}
           keyboardType="numeric"
           style={[
             {
               color: theme === "dark" ? Colors.dark.text : Colors.light.text,
-              borderColor,
-              borderWidth: 1,
               backgroundColor,
             },
             styles.txtInput,
@@ -189,12 +209,20 @@ const SendScreen = () => {
             )}
           </View>
         )}
-
+        <Text
+          style={[
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            },
+            styles.label,
+          ]}
+        >
+          Debit Account
+        </Text>
         <Pressable
           onPress={handlePresentModal}
           style={[
             {
-              borderColor,
               backgroundColor,
             },
             styles.pressableInput,
@@ -202,7 +230,12 @@ const SendScreen = () => {
           ]}
         >
           {data.bankName === "" ? (
-            <Text style={[{ color: "#cccccc" }, styles.bankNamePlaceHolder]}>
+            <Text
+              style={[
+                { color: theme === "dark" ? "#cccccc33" : "#00000033" },
+                styles.bankNamePlaceHolder,
+              ]}
+            >
               Bank Account to Debit
             </Text>
           ) : (
@@ -235,9 +268,19 @@ const SendScreen = () => {
             </AnimatedPressable>
           )}
         </Pressable>
+        <Text
+          style={[
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            },
+            styles.label,
+          ]}
+        >
+          Amount(₦)
+        </Text>
         <TextInput
           placeholder="Enter Amount"
-          placeholderTextColor={"#cccccc"}
+          placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           onChangeText={handleAmountInput}
           value={data.amountStr}
           keyboardType="numeric"
@@ -246,14 +289,24 @@ const SendScreen = () => {
             {
               color: theme === "dark" ? Colors.dark.text : Colors.light.text,
               fontSize: 20,
-              fontFamily: "MonBold",
+              fontFamily: "MonSemibold",
               backgroundColor,
             },
           ]}
         />
+        <Text
+          style={[
+            {
+              color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+            },
+            styles.label,
+          ]}
+        >
+          Remarks
+        </Text>
         <TextInput
           placeholder="Remarks"
-          placeholderTextColor={"#cccccc"}
+          placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           numberOfLines={5}
           onChangeText={(text) => setData({ ...data, remark: text })}
           style={[
@@ -268,7 +321,15 @@ const SendScreen = () => {
             },
           ]}
         />
-        <Pressable style={[{ backgroundColor: borderColor }, styles.sendBtn]}>
+        <Pressable
+          style={[
+            {
+              backgroundColor:
+                theme === "dark" ? Colors.dark.primary : Colors.light.primary,
+            },
+            styles.sendBtn,
+          ]}
+        >
           <Text
             style={{
               fontFamily: "MonBold",
@@ -315,18 +376,20 @@ const styles = StyleSheet.create({
   },
 
   bankNamePlaceHolder: {
-    fontFamily: "RobotoRegular",
+    fontFamily: "MonSemibold",
     fontSize: 18,
   },
 
   txtInput: {
     paddingHorizontal: 10,
-    paddingVertical: 12,
+    paddingVertical: 8,
     marginHorizontal: 15,
     marginBottom: 20,
-    fontFamily: "RobotoRegular",
+    fontFamily: "MonSemibold",
     fontSize: 18,
+    borderColor: "grey",
     borderRadius: 5,
+    borderWidth: StyleSheet.hairlineWidth,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -351,5 +414,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 4,
     overflow: "hidden",
+  },
+
+  label: {
+    fontFamily: "MonBold",
+    marginBottom: 5,
+    marginLeft: 18,
+    opacity: 0.7,
   },
 });

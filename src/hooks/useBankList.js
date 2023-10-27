@@ -23,6 +23,7 @@ const useBankList = () => {
         setList(res.data);
       })
       .catch((err) => {
+        setList(list);
         setError({ Error: true, message: "Check your network connection" });
       })
       .finally(() => {

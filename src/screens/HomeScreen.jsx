@@ -63,7 +63,7 @@ const HomeScreen = () => {
             style={[
               {
                 fontSize: 20,
-                fontFamily: "RobotoBold",
+                fontFamily: "Agbalumo",
               },
               rTxtStyle,
             ]}
@@ -71,9 +71,9 @@ const HomeScreen = () => {
             Hello Alex👋
           </Animated.Text>
           <Animated.Text
-            style={[{ fontFamily: "RobotoMedium", fontSize: 12 }, rTxtStyle]}
+            style={[{ fontFamily: "MonBold", fontSize: 12 }, rTxtStyle]}
           >
-            Your financial dreamland ...
+            Your financial dreamland...
           </Animated.Text>
         </View>
         <UserCircleIcon

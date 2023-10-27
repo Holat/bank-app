@@ -89,14 +89,14 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
         </Animated.Text>
       ) : null}
       <AnimatedFlatlist
+        keyboardShouldPersistTaps="handled"
         data={searchList}
         keyExtractor={(item) => item.code}
         renderItem={({ item, index }) => (
           <AnimatedPressable
             onPress={() => handlePress(item.name, item.code)}
             entering={ZoomIn.delay(100 * index)}
-            exiting={ZoomOut}
-            layout={Layout}
+            exiting={FadeOut}
             style={{
               flexDirection: "row",
               alignItems: "center",
