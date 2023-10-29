@@ -65,6 +65,7 @@ const PayScreen = () => {
                 {
                   backgroundColor:
                     theme === "dark" ? Colors.dark.card : Colors.light.card,
+                  borderWidth: theme === "dark" ? 0 : StyleSheet.hairlineWidth,
                 },
                 styles.cardCont,
               ]}
@@ -114,6 +115,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "grey",
+
     gap: 10,
 
     shadowOffset: {
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 2,
+    elevation: 3,
     borderRadius: 5,
   },
 

@@ -50,6 +50,7 @@ const QuickAccess = () => {
                 {
                   backgroundColor:
                     theme === "dark" ? Colors.dark.card : Colors.light.card,
+                  borderColor: theme === "dark" ? "grey" : "#001c55",
                 },
                 styles.cardCont,
               ]}
@@ -96,7 +97,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 2,
+    elevation: 3,
+    borderWidth: StyleSheet.hairlineWidth,
   },
 
   txt: {

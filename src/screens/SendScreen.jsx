@@ -7,16 +7,27 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  FadeOut,
+} from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
-import { ChevronDownIcon, XCircleIcon } from "react-native-heroicons/outline";
+import {
+  CheckCircleIcon,
+  ChevronDownIcon,
+  XCircleIcon,
+} from "react-native-heroicons/outline";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
 
 import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { BankListBottomSheet } from "../components";
 import { useAccountName } from "../hooks";
 import priceToCurrency from "../utils/pricetoCurrency";
+import { Accounts } from "../constants";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -24,6 +35,8 @@ const SendScreen = () => {
   const { top } = useSafeAreaInsets();
   const { theme } = useContext(ThemeContext);
   const bottomSheetRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const Acct = Accounts.slice().reverse();
   const [data, setData] = useState({
     bankName: "",
     bankCode: "",
@@ -31,7 +44,8 @@ const SendScreen = () => {
     amount: 0,
     amountStr: "",
     remark: "",
-    debitAcct: "",
+    debitAcct: Acct[0].name,
+    debitAcctBalance: Acct[0].balance,
   });
   const { name, err, loading } = useAccountName(data);
 
@@ -97,7 +111,7 @@ const SendScreen = () => {
       >
         Transfer Funds
       </Text>
-      <Animated.ScrollView style={{ flexGrow: 1 }}>
+      <ScrollView>
         <Text
           style={[
             {
@@ -145,7 +159,9 @@ const SendScreen = () => {
 
           {data.bankCode === "" ? (
             <Pressable onPress={handlePresentModal}>
-              <ChevronDownIcon color={"white"} />
+              <ChevronDownIcon
+                color={theme === "dark" ? "#cccccc33" : "#00000033"}
+              />
             </Pressable>
           ) : (
             <AnimatedPressable
@@ -222,53 +238,97 @@ const SendScreen = () => {
           Debit Account
         </Text>
         <Pressable
-          onPress={handlePresentModal}
+          onPress={() => setIsOpen(true)}
           style={[
-            {
-              backgroundColor,
-            },
             styles.pressableInput,
             styles.txtInput,
+            {
+              backgroundColor,
+              position: "relative",
+              zIndex: 1,
+              paddingHorizontal: 0,
+            },
           ]}
         >
-          {data.bankName === "" ? (
-            <Text
-              style={[
-                { color: theme === "dark" ? "#cccccc33" : "#00000033" },
-                styles.bankNamePlaceHolder,
-              ]}
+          <Animated.Text
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[
+              {
+                color: theme === "dark" ? Colors.dark.text : Colors.light.text,
+                marginLeft: 10,
+              },
+              styles.bankNamePlaceHolder,
+            ]}
+          >
+            {data.debitAcct} ~ ₦{data.debitAcctBalance}
+          </Animated.Text>
+          {!isOpen ? (
+            <Pressable
+              onPress={() => setIsOpen((prev) => !prev)}
+              style={{ marginRight: 10 }}
             >
-              Bank Account to Debit
-            </Text>
-          ) : (
-            <Animated.Text
-              entering={FadeIn}
-              exiting={FadeOut}
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                },
-                styles.bankNamePlaceHolder,
-              ]}
-            >
-              {data.bankName}
-            </Animated.Text>
-          )}
-
-          {data.bankCode === "" ? (
-            <Pressable onPress={handlePresentModal}>
-              <ChevronDownIcon color={"white"} />
+              <ChevronDownIcon
+                color={theme === "dark" ? "#cccccc33" : "#00000033"}
+              />
             </Pressable>
           ) : (
             <AnimatedPressable
               entering={FadeIn.delay(100)}
               exiting={FadeOut}
-              onPress={handleClearAcct}
+              onPress={() => setIsOpen((prev) => !prev)}
+              style={{ marginRight: 10 }}
             >
               <XCircleIcon color={"green"} />
             </AnimatedPressable>
           )}
+          <Animated.View
+            entering={FadeInDown}
+            style={[
+              {
+                backgroundColor,
+                display: isOpen ? "flex" : "none",
+              },
+              styles.dropDown,
+            ]}
+          >
+            {Acct.map(({ name, balance }, i) => (
+              <Pressable
+                key={name}
+                onPress={() => {
+                  setData({
+                    ...data,
+                    debitAcct: name,
+                    debitAcctBalance: balance,
+                  });
+                  setIsOpen(false);
+                }}
+                style={[
+                  {
+                    borderColor: "grey",
+                  },
+                  styles.dropDownBtn,
+                  data.debitAcct === name && { borderColor: "green" },
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      color:
+                        theme === "dark" ? Colors.dark.text : Colors.light.text,
+                      fontFamily: "RobotoBold",
+                      fontSize: 18,
+                      opacity: 0.7,
+                    },
+                    data.debitAcct === name && { color: "green" },
+                  ]}
+                >
+                  {name} ~ ₦{balance}
+                </Text>
+                {data.debitAcct === name && <CheckCircleIcon color={"green"} />}
+              </Pressable>
+            ))}
+          </Animated.View>
         </Pressable>
         <Text
           style={[
@@ -348,7 +408,7 @@ const SendScreen = () => {
             Send Money
           </Text>
         </Pressable>
-      </Animated.ScrollView>
+      </ScrollView>
       <BankListBottomSheet
         bottomSheetRef={bottomSheetRef}
         theme={theme}
@@ -429,5 +489,25 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 18,
     opacity: 0.7,
+  },
+
+  dropDown: {
+    width: "100%",
+    position: "absolute",
+    top: 42,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    elevation: 1,
+    padding: 15,
+  },
+
+  dropDownBtn: {
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+    borderWidth: 1,
+    borderRadius: 10,
   },
 });

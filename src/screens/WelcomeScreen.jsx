@@ -14,7 +14,7 @@ const WelcomeScreen = ({ navigation }) => {
       <View style={[styles.logoCont, styles.flex]}>
         <Animated.View
           style={[styles.logo, styles.flex]}
-          entering={FadeIn.delay(200)}
+          entering={FadeIn.delay(300)}
         >
           <Image
             source={require("../../assets/tree.png")}

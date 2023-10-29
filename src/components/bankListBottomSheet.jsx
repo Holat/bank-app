@@ -21,7 +21,6 @@ import Animated, {
 
 import { Colors } from "../constants/Theme";
 import { useBankList } from "../hooks";
-import { BlurView } from "expo-blur";
 
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -29,11 +28,10 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const BackDrop = ({ style, bottomSheetRef }) => {
   return (
     <AnimatedPressable
-      style={[style]}
+      style={[style, { backgroundColor: "#00000033" }]}
+      entering={FadeIn}
       onPress={() => bottomSheetRef.current?.close()}
-    >
-      <Animated.View></Animated.View>
-    </AnimatedPressable>
+    ></AnimatedPressable>
   );
 };
 

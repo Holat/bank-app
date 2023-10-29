@@ -15,7 +15,7 @@ import {
 const Accounts = [
   {
     id: "a2",
-    name: "others",
+    name: "Others",
     balance: "10,000",
     color: "#06D6A0",
   },
