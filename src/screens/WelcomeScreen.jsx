@@ -28,7 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
         <View style={[styles.flex, { flexDirection: "row" }]}>
           <Animated.Text
             entering={FadeInDown.duration(500).springify()}
-            style={styles.logoTxt}
+            style={[styles.logoTxt, { fontFamily: "Teko" }]}
           >
             Dream
           </Animated.Text>
@@ -73,6 +73,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 45,
     marginTop: 10,
-    fontFamily: "Agbalumo",
   },
 });

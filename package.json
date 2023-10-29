@@ -9,13 +9,12 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@gorhom/bottom-sheet": "^4.5.1",
+    "@gorhom/bottom-sheet": "^4",
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
     "axios": "^1.5.1",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "expo": "~49.0.15",
+    "expo": "^49.0.16",
     "expo-blur": "~12.4.1",
     "expo-media-library": "~15.4.1",
     "expo-screen-capture": "~5.3.0",

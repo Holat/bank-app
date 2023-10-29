@@ -21,23 +21,16 @@ const Tab = createBottomTabNavigator();
 const HomeTabs = () => {
   const { top } = useSafeAreaInsets();
   return (
-    <View
-      style={{
-        width,
-        height: height + top,
-      }}
+    <Tab.Navigator
+      screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
+      tabBar={(props) => <CustomTabBar {...props} />}
     >
-      <Tab.Navigator
-        screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
-        tabBar={(props) => <CustomTabBar {...props} />}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Send" component={SendScreen} />
-        <Tab.Screen name="Pay" component={PayScreen} />
-        <Tab.Screen name="Cards" component={CardScreen} />
-        <Tab.Screen name="Profile" component={Settings} />
-      </Tab.Navigator>
-    </View>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Send" component={SendScreen} />
+      <Tab.Screen name="Pay" component={PayScreen} />
+      <Tab.Screen name="Cards" component={CardScreen} />
+      <Tab.Screen name="Profile" component={Settings} />
+    </Tab.Navigator>
   );
 };
 
@@ -48,12 +41,12 @@ const AppNavigation = () => {
         screenOptions={{ headerShown: false }}
         initialRouteName="Welcome"
       >
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen
           name="Tab"
           component={HomeTabs}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
