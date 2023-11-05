@@ -16,17 +16,12 @@ const useScreenCapture = () => {
   };
 
   useEffect(() => {
-    const checkPermissions = async () => {
-      const hasPermission = await hasPermissions();
-      if (hasPermission) {
-        const subscription = addScreenshotListener(() => {
-          Alert.alert("Thanks for taking a screenshot");
-        });
-        return () => subscription.remove();
-      }
-    };
-
-    checkPermissions();
+    if (hasPermissions()) {
+      const subscription = addScreenshotListener(() => {
+        Alert.alert("Thanks for taking a screenshot");
+      });
+      return () => subscription.remove();
+    }
   }, []);
 
   const activate = async () => {

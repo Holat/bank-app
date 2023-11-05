@@ -5,13 +5,13 @@ import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace("Tab");
+      navigation.replace("Login");
     }, 1000);
   }, []);
 
   return (
     <View style={[styles.cont, styles.flex]}>
-      <View style={[styles.logoCont, styles.flex]}>
+      <View style={[styles.flex]}>
         <Animated.View
           style={[styles.logo, styles.flex]}
           entering={FadeIn.delay(300)}
@@ -28,7 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
         <View style={[styles.flex, { flexDirection: "row" }]}>
           <Animated.Text
             entering={FadeInDown.duration(500).springify()}
-            style={[styles.logoTxt, { fontFamily: "Teko" }]}
+            style={styles.logoTxt}
           >
             Dream
           </Animated.Text>
@@ -73,5 +73,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 45,
     marginTop: 10,
+    fontFamily: "Agbalumo",
   },
 });

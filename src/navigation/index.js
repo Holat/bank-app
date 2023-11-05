@@ -8,6 +8,7 @@ import {
   PayScreen,
   Settings,
   CardScreen,
+  LoginScreen,
 } from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
@@ -42,6 +43,7 @@ const AppNavigation = () => {
         initialRouteName="Welcome"
       >
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           name="Tab"
           component={HomeTabs}

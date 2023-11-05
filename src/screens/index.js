@@ -4,6 +4,7 @@ import SendScreen from "./SendScreen";
 import PayScreen from "./PayScreen";
 import Settings from "./SettingScreen";
 import CardScreen from "./CardScreen";
+import LoginScreen from "./LoginScreen";
 
 export {
   HomeScreen,
@@ -12,4 +13,5 @@ export {
   PayScreen,
   Settings,
   CardScreen,
+  LoginScreen,
 };

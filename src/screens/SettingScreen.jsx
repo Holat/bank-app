@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable, Text } from "react-native";
 import React, { useContext, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
@@ -14,7 +14,9 @@ import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { useScreenCapture } from "../hooks";
 
-const Settings = () => {
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const Settings = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
   const { theme, setTheme, showBalance, setShowBalance } =
     useContext(ThemeContext);
@@ -144,6 +146,21 @@ const Settings = () => {
           />
         </View>
       </Animated.View>
+      <AnimatedPressable
+        onPress={() => navigation.replace("Login")}
+        style={[
+          {
+            alignSelf: "center",
+            marginTop: 20,
+            paddingHorizontal: 15,
+            paddingVertical: 10,
+            borderRadius: 5,
+          },
+          rHeaderStyle,
+        ]}
+      >
+        <Text style={{ color: "red", fontFamily: "MonBold" }}>Log Out</Text>
+      </AnimatedPressable>
     </Animated.View>
   );
 };

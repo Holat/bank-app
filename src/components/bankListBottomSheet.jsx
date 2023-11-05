@@ -37,7 +37,7 @@ const BackDrop = ({ style, bottomSheetRef }) => {
 
 const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
   const { searchList, handleSearch, setSearch, loading, error } = useBankList();
-  const snapPoints = useMemo(() => ["50%", "62%", "95%"], []);
+  const snapPoints = useMemo(() => ["50%", "95%"], []);
 
   const handlePress = (name, code) => {
     setData((prev) => ({
@@ -55,7 +55,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
         <BackDrop {...props} bottomSheetRef={bottomSheetRef} />
       )}
       ref={bottomSheetRef}
-      index={1}
+      index={0}
       snapPoints={snapPoints}
       handleIndicatorStyle={{ display: "none" }}
       backgroundStyle={{
@@ -75,6 +75,7 @@ const BankListBottomSheet = ({ bottomSheetRef, theme, setData }) => {
         placeholder="Search"
         placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
         onChangeText={(text) => handleSearch(text)}
+        onFocus={() => bottomSheetRef.current?.snapToIndex(1)}
         style={[
           {
             color: theme === "dark" ? Colors.dark.text : Colors.light.text,
