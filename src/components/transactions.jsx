@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View, Text } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BuildingLibraryIcon,
   RectangleStackIcon,
@@ -10,10 +10,11 @@ import Animated, {
   interpolateColor,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import axios from "axios";
 
-import { Trans } from "./trans";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
+import priceToCurrency from "../utils/pricetoCurrency";
 
 const Card = ({ item }) => {
   const { theme } = useContext(ThemeContext);
@@ -59,23 +60,24 @@ const Card = ({ item }) => {
           }}
         >
           <Animated.Text style={[styles.boldTxt, rTxtStyle]}>
-            {item.name}
+            {item.bankname}
           </Animated.Text>
           <Animated.Text
             style={[
               styles.boldTxt,
               {
                 color:
-                  item.debitOrCredit === "credit"
+                  item.transtype?.toLowerCase() == "credit"
                     ? "green"
-                    : item.debitOrCredit === "debit" && theme === "light"
+                    : item.transtype?.toLowerCase() == "debit" &&
+                      theme === "light"
                     ? "black"
                     : "white",
                 opacity: 0.7,
               },
             ]}
           >
-            {item.debitOrCredit === "debit" ? "-" : "+"}${item.amount}
+            {item.transtype?.toLowerCase() == "debit" ? "-" : "+"}${item.amount}
           </Animated.Text>
         </View>
         <View>
@@ -95,6 +97,8 @@ const Card = ({ item }) => {
 
 const Transactions = () => {
   const { theme } = useContext(ThemeContext);
+  const [trans, setTrans] = useState([""]);
+
   const progress = useDerivedValue(() => {
     return theme === "light" ? withTiming(0) : withTiming(1);
   }, [theme]);
@@ -110,12 +114,24 @@ const Transactions = () => {
       color,
     };
   });
+
+  useEffect(() => {
+    axios
+      .get(`http://192.168.66.71:3000/transaction/${3}`)
+      .then((res) => {
+        setTrans(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [trans]);
+
   return (
     <View style={{ flex: 2 }}>
       <Animated.Text style={[styles.header, rTxtStyle]}>
         Transactions
       </Animated.Text>
-      {Trans.length === 0 ? (
+      {trans.length === 0 ? (
         <View
           style={{
             flex: 1,
@@ -150,7 +166,7 @@ const Transactions = () => {
           }}
           showsVerticalScrollIndicator={false}
         >
-          {Trans.map((item, i) => (
+          {trans.map((item, i) => (
             <Card item={item} key={i} />
           ))}
         </ScrollView>
