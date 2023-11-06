@@ -11,20 +11,34 @@ import Animated, {
 } from "react-native-reanimated";
 import { TextInput } from "react-native-gesture-handler";
 import { ChevronRightIcon } from "react-native-heroicons/solid";
+import axios from "axios";
 
 const LoginScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
-  const [pin, setPin] = useState("");
+  const [values, setValues] = useState({
+    password: "",
+    email: "holatolorunshola@gmail.com",
+  });
+
   const [error, setError] = useState("");
 
   const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
-  const handlePress = () => {
-    if (pin === "3784") {
-      navigation.replace("Tab");
+  const handleSubmit = () => {
+    if (values.password.length === 4) {
+      axios
+        .post("/login", values)
+        .then((res) => {
+          if (res.data.Status === "Success") {
+            navigation.replace("Tab");
+          } else {
+            setError(res.data.Error);
+          }
+        })
+        .catch((err) => console.log(err));
     } else {
-      setError("Incorrect Pin");
+      setError("Incomplete Pin");
     }
   };
 
@@ -67,9 +81,7 @@ const LoginScreen = ({ navigation }) => {
             alignSelf: "center",
           }}
         >
-          <Text style={{ color: "red", fontFamily: "MonBold" }}>
-            Incorrect Pin
-          </Text>
+          <Text style={{ color: "red", fontFamily: "MonBold" }}>{error}</Text>
         </Animated.View>
       )}
 
@@ -137,10 +149,10 @@ const LoginScreen = ({ navigation }) => {
             secureTextEntry={true}
             keyboardType="numeric"
             caretHidden={true}
-            onChangeText={(text) => setPin(text)}
+            onChangeText={(text) => setValues({ ...values, password: text })}
           />
           <Pressable
-            onPress={handlePress}
+            onPress={handleSubmit}
             style={{
               backgroundColor: "#023E8A",
               borderRadius: 10,
