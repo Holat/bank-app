@@ -9,6 +9,7 @@ import {
   Settings,
   CardScreen,
   LoginScreen,
+  SignupScreen,
 } from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
@@ -44,6 +45,7 @@ const AppNavigation = () => {
       >
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen
           name="Tab"
           component={HomeTabs}

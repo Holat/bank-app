@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmit = () => {
     if (values.password.length === 4) {
       axios
-        .post("/login", values)
+        .post("http://192.168.66.71:3000/login", values)
         .then((res) => {
           if (res.data.Status === "Success") {
             navigation.replace("Tab");
@@ -155,28 +155,53 @@ const LoginScreen = ({ navigation }) => {
             onPress={handleSubmit}
             style={{
               backgroundColor: "#023E8A",
-              borderRadius: 10,
-              padding: 10,
-              paddingLeft: 15,
+              borderRadius: 5,
+              paddingVertical: 10,
               marginTop: 10,
+              width: 100,
             }}
           >
-            <ChevronRightIcon color={"white"} size={25} />
+            <Text
+              style={{
+                fontFamily: "MonBold",
+                fontSize: 18,
+                textAlign: "center",
+                color: "white",
+              }}
+            >
+              Login
+            </Text>
           </Pressable>
         </View>
-        <Text
+        <View
           style={{
             marginTop: 20,
-            color: "gray",
             position: "absolute",
             top: "50%",
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
-          You don't have an account?{" "}
-          <>
-            <Text>Sign Up</Text>
-          </>
-        </Text>
+          <Text
+            style={{
+              color: "gray",
+            }}
+          >
+            You don't have an account?{" "}
+          </Text>
+          <Pressable onPress={() => navigation.replace("Signup")}>
+            <Text
+              style={{
+                color: "#023E8A",
+                textDecorationLine: "underline",
+                fontFamily: "MonBold",
+                fontSize: 16,
+              }}
+            >
+              Sign Up
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
