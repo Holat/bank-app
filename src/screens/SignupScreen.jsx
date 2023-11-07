@@ -27,6 +27,16 @@ const SignupScreen = ({ navigation }) => {
     email: "",
   });
 
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError("");
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
+
   const handleSubmit = () => {
     if (
       data.firstname.trim() === "" &&
@@ -50,16 +60,6 @@ const SignupScreen = ({ navigation }) => {
         });
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      const timeout = setTimeout(() => {
-        setError("");
-      }, 2000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [error]);
 
   return (
     <KeyboardAvoidingView

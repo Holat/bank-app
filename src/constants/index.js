@@ -80,4 +80,5 @@ const QuickAccessList = [
   { name: "Betting", color: "green" },
   { name: "Tuition", color: "red" },
 ];
+
 export { Accounts, Icon, QuickAccessList, QuickAccessIcon };

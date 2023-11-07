@@ -14,7 +14,7 @@ import axios from "axios";
 
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
-import priceToCurrency from "../utils/pricetoCurrency";
+import { getTime, priceToCurrency } from "../utils";
 
 const Card = ({ item }) => {
   const { theme } = useContext(ThemeContext);
@@ -60,7 +60,7 @@ const Card = ({ item }) => {
           }}
         >
           <Animated.Text style={[styles.boldTxt, rTxtStyle]}>
-            {item.bankname}
+            {item.recipient}
           </Animated.Text>
           <Animated.Text
             style={[
@@ -77,17 +77,18 @@ const Card = ({ item }) => {
               },
             ]}
           >
-            {item.transtype?.toLowerCase() == "debit" ? "-" : "+"}${item.amount}
+            {item.transtype?.toLowerCase() == "debit" ? "-" : "+"}
+            {priceToCurrency(item.amount?.toString())}
           </Animated.Text>
         </View>
         <View>
           <Animated.Text
             style={[
-              { fontFamily: "MonBold", opacity: 0.5, fontSize: 12 },
+              { fontFamily: "RobotoRegular", opacity: 0.5, fontSize: 12 },
               rTxtStyle,
             ]}
           >
-            {item.time}
+            {getTime(item.time)}
           </Animated.Text>
         </View>
       </View>
@@ -124,7 +125,7 @@ const Transactions = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [trans]);
+  }, []);
 
   return (
     <View style={{ flex: 2 }}>
