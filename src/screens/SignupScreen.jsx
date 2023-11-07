@@ -14,6 +14,7 @@ import axios from "axios";
 
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
+import { storeData } from "../utils/asyncStorage";
 
 const SignupScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
@@ -38,27 +39,34 @@ const SignupScreen = ({ navigation }) => {
   }, [error]);
 
   const handleSubmit = () => {
+    const { firstname, lastname, password, email } = data;
     if (
-      data.firstname.trim() === "" &&
-      data.lastname.trim() === "" &&
-      data.password.trim() === "" &&
-      data.email.trim() === ""
+      !firstname.trim() ||
+      !lastname.trim() ||
+      !password.trim() ||
+      !email.trim()
     ) {
       setError("Please fill all input fields");
-    } else {
-      axios
-        .post("http://192.168.66.71:3000/signup", data)
-        .then((res) => {
-          if (res.data.Status === "Success") {
-            navigation.replace("Login");
-          } else {
-            setError(res.status.Error);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      return;
     }
+
+    axios
+      .post("http://192.168.66.71:3000/signup", data)
+      .then(async (res) => {
+        if (res.data.Status === "Success") {
+          await storeData("userDetails", {
+            name: `${data.firstname} ${data.lastname}`,
+            email,
+            id: res.data.id,
+          });
+          navigation.replace("Login");
+        } else {
+          setError(res.status.Error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

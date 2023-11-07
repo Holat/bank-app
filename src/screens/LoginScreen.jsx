@@ -12,13 +12,16 @@ import Animated, {
 import { TextInput } from "react-native-gesture-handler";
 import { ChevronRightIcon } from "react-native-heroicons/solid";
 import axios from "axios";
+import { getData } from "../utils/asyncStorage";
 
 const LoginScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
   const [values, setValues] = useState({
     password: "",
-    email: "holatolorunshola@gmail.com",
+    email: "",
+    name: "",
+    id: null,
   });
 
   const [error, setError] = useState("");
@@ -26,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
   const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
   const handleSubmit = () => {
-    if (values.password.length === 4) {
+    if (values.password.length === 4 && values.email.trim()) {
       axios
         .post("http://192.168.66.71:3000/login", values)
         .then((res) => {
@@ -41,6 +44,16 @@ const LoginScreen = ({ navigation }) => {
       setError("Incomplete Pin");
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getData("userDetails");
+      const { email, id, name } = data;
+      setValues({ ...values, email, id, name });
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -115,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
               marginTop: 30,
             }}
           >
-            Alex
+            {values.name?.split(" ")[0]}
           </Text>
           <View style={{}}>
             <Text

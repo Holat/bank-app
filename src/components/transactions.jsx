@@ -97,7 +97,7 @@ const Card = ({ item }) => {
 };
 
 const Transactions = () => {
-  const { theme } = useContext(ThemeContext);
+  const { theme, id } = useContext(ThemeContext);
   const [trans, setTrans] = useState([""]);
 
   const progress = useDerivedValue(() => {
@@ -116,9 +116,11 @@ const Transactions = () => {
     };
   });
 
+  console.log(id);
+
   useEffect(() => {
     axios
-      .get(`http://192.168.66.71:3000/transaction/${3}`)
+      .get(`http://192.168.66.71:3000/transaction/${id}`)
       .then((res) => {
         setTrans(res.data.result);
       })

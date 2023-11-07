@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
 import Animated, {
@@ -14,7 +14,8 @@ import { Cards, QuickAccess, Transactions } from "../components";
 import { Colors } from "../constants/Theme";
 
 const HomeScreen = () => {
-  const { theme } = useContext(ThemeContext);
+  const { theme, name, id } = useContext(ThemeContext);
+  const { top } = useSafeAreaInsets();
 
   const progress = useDerivedValue(() => {
     return theme === "light" ? withTiming(0) : withTiming(1);
@@ -44,7 +45,6 @@ const HomeScreen = () => {
     };
   });
 
-  const { top } = useSafeAreaInsets();
   return (
     <Animated.View style={[{ paddingTop: top, flex: 1 }, rStyle]}>
       <View
@@ -68,7 +68,7 @@ const HomeScreen = () => {
               rTxtStyle,
             ]}
           >
-            Hello Alex 👋
+            Hello {name.split(" ")[0]}👋
           </Animated.Text>
           <Animated.Text
             style={[{ fontFamily: "MonBold", fontSize: 12 }, rTxtStyle]}
