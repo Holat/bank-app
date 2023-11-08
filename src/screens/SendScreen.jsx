@@ -190,7 +190,6 @@ const SendScreen = () => {
           placeholder="Enter Account Number"
           placeholderTextColor={theme === "dark" ? "#cccccc33" : "#00000033"}
           onChangeText={handleTextInput}
-          onFocus={handlePresentModalClose}
           keyboardType="numeric"
           style={[
             {

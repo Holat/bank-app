@@ -26,6 +26,7 @@ const SigninScreen = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
+  const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
   useEffect(() => {
     if (error) {
@@ -108,7 +109,13 @@ const SigninScreen = ({ navigation }) => {
         }}
       >
         <ScrollView
-          style={styles.loginCont}
+          style={[
+            styles.loginCont,
+            {
+              backgroundColor:
+                theme === "dark" ? Colors.dark.bar : Colors.light.card,
+            },
+          ]}
           showsVerticalScrollIndicator={false}
         >
           <Text
@@ -116,7 +123,7 @@ const SigninScreen = ({ navigation }) => {
               fontFamily: "MonBold",
               fontSize: 18,
               textAlign: "center",
-              color: "white",
+              color: txtColor,
               marginBottom: 20,
             }}
           >
@@ -184,6 +191,7 @@ const SigninScreen = ({ navigation }) => {
               ]}
               keyboardType="numeric"
               maxLength={4}
+              caretHidden={true}
             />
           </View>
           <Pressable
@@ -225,7 +233,7 @@ const SigninScreen = ({ navigation }) => {
           >
             You have don't an account?{" "}
           </Text>
-          <Pressable onPress={() => navigation.push("Login")}>
+          <Pressable onPress={() => navigation.push("Signup")}>
             <Text
               style={{
                 color: "#023E8A",

@@ -19,7 +19,6 @@ import { storeData } from "../utils/asyncStorage";
 const SignupScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
-  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
   const [error, setError] = useState("");
   const [data, setData] = useState({
     firstname: "",
@@ -27,6 +26,8 @@ const SignupScreen = ({ navigation }) => {
     password: "",
     email: "",
   });
+  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
+  const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
   useEffect(() => {
     if (error) {
@@ -112,7 +113,13 @@ const SignupScreen = ({ navigation }) => {
         }}
       >
         <ScrollView
-          style={styles.loginCont}
+          style={[
+            styles.loginCont,
+            {
+              backgroundColor:
+                theme === "dark" ? Colors.dark.bar : Colors.light.card,
+            },
+          ]}
           showsVerticalScrollIndicator={false}
         >
           <Text
@@ -120,7 +127,7 @@ const SignupScreen = ({ navigation }) => {
               fontFamily: "MonBold",
               fontSize: 18,
               textAlign: "center",
-              color: "white",
+              color: txtColor,
               marginBottom: 20,
             }}
           >

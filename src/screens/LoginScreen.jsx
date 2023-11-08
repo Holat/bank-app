@@ -26,6 +26,7 @@ const LoginScreen = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
+  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
 
   const handleSubmit = () => {
     if (values.password.length === 4 && values.email.trim()) {
@@ -110,7 +111,15 @@ const LoginScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <View style={styles.loginCont}>
+        <View
+          style={[
+            styles.loginCont,
+            {
+              backgroundColor:
+                theme === "dark" ? Colors.dark.bar : Colors.light.card,
+            },
+          ]}
+        >
           <Animated.View
             style={[styles.logo, styles.flex]}
             entering={FadeIn.delay(300)}
@@ -134,7 +143,7 @@ const LoginScreen = ({ navigation }) => {
           >
             {values.name?.split(" ")[0]}
           </Text>
-          <View style={{}}>
+          <View>
             <Text
               style={{
                 color: txtColor,
@@ -159,10 +168,7 @@ const LoginScreen = ({ navigation }) => {
           <TextInput
             autoFocus={true}
             maxLength={4}
-            style={[
-              { backgroundColor: Colors.dark.background },
-              styles.txtInput,
-            ]}
+            style={[{ backgroundColor, color: txtColor }, styles.txtInput]}
             secureTextEntry={true}
             keyboardType="numeric"
             caretHidden={true}
@@ -242,7 +248,6 @@ const styles = StyleSheet.create({
     gap: 5,
     width: "100%",
     position: "absolute",
-    backgroundColor: Colors.dark.bar,
     flex: 1,
     top: 0,
     transform: [{ translateY: -50 }],
@@ -276,7 +281,6 @@ const styles = StyleSheet.create({
   txtInput: {
     borderRadius: 5,
     letterSpacing: 10,
-    color: "white",
     paddingHorizontal: 10,
     paddingTop: 3,
     fontSize: 20,
