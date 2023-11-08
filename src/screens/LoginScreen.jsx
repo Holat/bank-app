@@ -15,7 +15,7 @@ import axios from "axios";
 import { getData } from "../utils/asyncStorage";
 
 const LoginScreen = ({ navigation }) => {
-  const { theme } = useContext(ThemeContext);
+  const { theme, setUserDetails } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
   const [values, setValues] = useState({
     password: "",
@@ -50,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
       const data = await getData("userDetails");
       const { email, id, name } = data;
       setValues({ ...values, email, id, name });
+      setUserDetails({ name, id, email });
     };
 
     fetchData();

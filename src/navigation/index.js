@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -10,10 +11,10 @@ import {
   CardScreen,
   LoginScreen,
   SignupScreen,
+  SigninScreen,
 } from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
-import { View, Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
@@ -46,6 +47,7 @@ const AppNavigation = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen
           name="Tab"
           component={HomeTabs}

@@ -14,7 +14,7 @@ import { Cards, QuickAccess, Transactions } from "../components";
 import { Colors } from "../constants/Theme";
 
 const HomeScreen = () => {
-  const { theme, name, id } = useContext(ThemeContext);
+  const { theme, userDetails } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
 
   const progress = useDerivedValue(() => {
@@ -68,7 +68,7 @@ const HomeScreen = () => {
               rTxtStyle,
             ]}
           >
-            Hello {name.split(" ")[0]}👋
+            Hello {userDetails.name.split(" ")[0]}👋
           </Animated.Text>
           <Animated.Text
             style={[{ fontFamily: "MonBold", fontSize: 12 }, rTxtStyle]}

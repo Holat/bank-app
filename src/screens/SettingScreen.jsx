@@ -18,7 +18,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const Settings = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
-  const { theme, setTheme, showBalance, setShowBalance, name } =
+  const { theme, setTheme, showBalance, setShowBalance, userDetails } =
     useContext(ThemeContext);
   const [themeToggle, setThemeToggle] = useState(true);
   const { isActivated, handleScreenCapture } = useScreenCapture();
@@ -105,7 +105,7 @@ const Settings = ({ navigation }) => {
                 rTxtStyle,
               ]}
             >
-              {name}
+              {userDetails.name}
             </Animated.Text>
           </View>
           <View style={styles.iconCont}>

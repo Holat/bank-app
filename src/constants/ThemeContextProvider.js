@@ -9,32 +9,19 @@ export const ThemeContext = createContext();
 const ThemeContextProvider = (props) => {
   const [theme, setTheme] = useState("dark");
   const [showBalance, setShowBalance] = useState(true);
-  const [name, setName] = useState("");
-  const [id, setId] = useState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getData("userDetails");
-      const { email, id, name } = data;
-      if (name) {
-        setName(name);
-        setId(id);
-      } else {
-        setName("");
-        setId(null);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    id: null,
+    email: "",
+  });
 
   const contextValue = {
     theme,
     setTheme,
     showBalance,
     setShowBalance,
-    name,
-    id,
+    userDetails,
+    setUserDetails,
   };
   return (
     <ThemeContext.Provider value={contextValue}>
