@@ -16,17 +16,16 @@ import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { storeData } from "../utils/asyncStorage";
 
-const SignupScreen = ({ navigation }) => {
-  const { theme } = useContext(ThemeContext);
+const SigninScreen = ({ navigation }) => {
+  const { theme, setUserDetails } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
-  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
-  const [error, setError] = useState("");
   const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
-    password: "",
     email: "",
+    password: "",
   });
+  const [error, setError] = useState("");
+
+  const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
 
   useEffect(() => {
     if (error) {
@@ -39,23 +38,20 @@ const SignupScreen = ({ navigation }) => {
   }, [error]);
 
   const handleSubmit = () => {
-    const { firstname, lastname, password, email } = data;
-    if (
-      !firstname.trim() ||
-      !lastname.trim() ||
-      !password.trim() ||
-      !email.trim()
-    ) {
+    const { password, email } = data;
+    if (!password.trim() || !email.trim()) {
       setError("Please fill all input fields");
       return;
     }
 
     axios
-      .post("http://192.168.66.71:3000/signup", data)
+      .post("http://192.168.66.71:3000/login", data)
       .then(async (res) => {
         if (res.data.Status === "Success") {
+          const { firstname, lastname, email, id } = res.data.details;
+          setUserDetails({ name: `${firstname} ${lastname}`, email, id });
           await storeData("userDetails", {
-            name: `${data.firstname} ${data.lastname}`,
+            name: `${firstname} ${lastname}`,
             email,
             id: res.data.id,
           });
@@ -124,70 +120,8 @@ const SignupScreen = ({ navigation }) => {
               marginBottom: 20,
             }}
           >
-            Create an account
+            Login another account
           </Text>
-          <View>
-            <Text
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                },
-                styles.label,
-              ]}
-            >
-              Firstname
-            </Text>
-            <TextInput
-              selectionColor={
-                theme === "dark" ? Colors.dark.text : Colors.light.text
-              }
-              placeholder="Enter firstname"
-              placeholderTextColor={
-                theme === "dark" ? "#cccccc33" : "#00000033"
-              }
-              onChangeText={(text) => setData({ ...data, firstname: text })}
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                  backgroundColor,
-                },
-                styles.txtInput,
-              ]}
-            />
-          </View>
-          <View>
-            <Text
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                },
-                styles.label,
-              ]}
-            >
-              Lastname
-            </Text>
-            <TextInput
-              selectionColor={
-                theme === "dark" ? Colors.dark.text : Colors.light.text
-              }
-              placeholder="Enter Lastname"
-              placeholderTextColor={
-                theme === "dark" ? "#cccccc33" : "#00000033"
-              }
-              onChangeText={(text) => setData({ ...data, lastname: text })}
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                  backgroundColor,
-                },
-                styles.txtInput,
-              ]}
-            />
-          </View>
           <View>
             <Text
               style={[
@@ -209,7 +143,6 @@ const SignupScreen = ({ navigation }) => {
                 theme === "dark" ? "#cccccc33" : "#00000033"
               }
               onChangeText={(text) => setData({ ...data, email: text })}
-              keyboardType="email-address"
               style={[
                 {
                   color:
@@ -230,12 +163,9 @@ const SignupScreen = ({ navigation }) => {
                 styles.label,
               ]}
             >
-              Pin (4-digit)
+              Pin
             </Text>
             <TextInput
-              keyboardType="numeric"
-              maxLength={4}
-              secureTextEntry={true}
               selectionColor={
                 theme === "dark" ? Colors.dark.text : Colors.light.text
               }
@@ -252,40 +182,8 @@ const SignupScreen = ({ navigation }) => {
                 },
                 styles.txtInput,
               ]}
-            />
-          </View>
-          <View>
-            <Text
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                },
-                styles.label,
-              ]}
-            >
-              Confirm Pin
-            </Text>
-            <TextInput
               keyboardType="numeric"
               maxLength={4}
-              secureTextEntry={true}
-              selectionColor={
-                theme === "dark" ? Colors.dark.text : Colors.light.text
-              }
-              placeholder="Confirm Pin"
-              placeholderTextColor={
-                theme === "dark" ? "#cccccc33" : "#00000033"
-              }
-              onChangeText={(text) => setData({ ...data, password: text })}
-              style={[
-                {
-                  color:
-                    theme === "dark" ? Colors.dark.text : Colors.light.text,
-                  backgroundColor,
-                },
-                styles.txtInput,
-              ]}
             />
           </View>
           <Pressable
@@ -306,7 +204,7 @@ const SignupScreen = ({ navigation }) => {
                 color: "white",
               }}
             >
-              Create account
+              Sign In
             </Text>
           </Pressable>
         </ScrollView>
@@ -325,7 +223,7 @@ const SignupScreen = ({ navigation }) => {
               color: "gray",
             }}
           >
-            You have an account?{" "}
+            You have don't an account?{" "}
           </Text>
           <Pressable onPress={() => navigation.push("Login")}>
             <Text
@@ -335,7 +233,7 @@ const SignupScreen = ({ navigation }) => {
                 fontSize: 16,
               }}
             >
-              Login
+              Sign Up
             </Text>
           </Pressable>
         </View>
@@ -344,7 +242,7 @@ const SignupScreen = ({ navigation }) => {
   );
 };
 
-export default SignupScreen;
+export default SigninScreen;
 
 const styles = StyleSheet.create({
   loginCont: {

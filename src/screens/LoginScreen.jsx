@@ -10,7 +10,6 @@ import Animated, {
   FadeOutUp,
 } from "react-native-reanimated";
 import { TextInput } from "react-native-gesture-handler";
-import { ChevronRightIcon } from "react-native-heroicons/solid";
 import axios from "axios";
 import { getData } from "../utils/asyncStorage";
 
@@ -48,9 +47,13 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getData("userDetails");
-      const { email, id, name } = data;
-      setValues({ ...values, email, id, name });
-      setUserDetails({ name, id, email });
+      if (data) {
+        const { email, id, name } = data;
+        setValues({ ...values, email, id, name });
+        setUserDetails({ name, id, email });
+      } else {
+        navigation.push("Signin");
+      }
     };
 
     fetchData();
@@ -186,12 +189,24 @@ const LoginScreen = ({ navigation }) => {
               Login
             </Text>
           </Pressable>
+          <Pressable onPress={() => navigation.push("Signin")}>
+            <Text
+              style={{
+                marginTop: 10,
+                color: "#023E8A",
+                fontFamily: "MonBold",
+                fontSize: 16,
+              }}
+            >
+              Sign in another account
+            </Text>
+          </Pressable>
         </View>
         <View
           style={{
             marginTop: 20,
             position: "absolute",
-            top: "50%",
+            bottom: "5%",
             flexDirection: "row",
             alignItems: "center",
           }}
@@ -207,7 +222,6 @@ const LoginScreen = ({ navigation }) => {
             <Text
               style={{
                 color: "#023E8A",
-                textDecorationLine: "underline",
                 fontFamily: "MonBold",
                 fontSize: 16,
               }}
@@ -234,7 +248,8 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -50 }],
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 40,
+    paddingTop: 40,
+    paddingBottom: 20,
     alignItems: "center",
   },
   logo: {
