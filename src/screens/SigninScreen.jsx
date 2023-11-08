@@ -57,7 +57,7 @@ const SigninScreen = ({ navigation }) => {
           });
           navigation.replace("Login");
         } else {
-          setError(res.status.Error);
+          setError(res.data.Error);
         }
       })
       .catch((err) => {
