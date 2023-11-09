@@ -2,8 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, createContext, useEffect } from "react";
 import { View } from "react-native";
 
-import { getData } from "../utils/asyncStorage";
-
 export const ThemeContext = createContext();
 
 const ThemeContextProvider = (props) => {

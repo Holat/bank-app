@@ -4,7 +4,6 @@ const storeData = async (key, value) => {
   try {
     const strigifiedObj = JSON.stringify(value);
     await AsyncStorage.setItem(key, strigifiedObj);
-    console.log(`Data with key "${key}" stored successfully.`);
   } catch (error) {
     console.error(`Error storing data: ${error}`);
   }
@@ -26,4 +25,27 @@ const getData = async (key) => {
   }
 };
 
-export { storeData, getData };
+const setPref = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (error) {
+    console.log(`Error storing data: ${error}`);
+  }
+};
+
+const getPref = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      return value;
+    } else {
+      console.log("No value for the key was found");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error retrieving data");
+    return null;
+  }
+};
+
+export { storeData, getData, getPref, setPref };

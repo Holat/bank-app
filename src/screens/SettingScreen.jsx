@@ -13,6 +13,7 @@ import Animated, {
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { useScreenCapture } from "../hooks";
+import { setPref } from "../utils/asyncStorage";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -23,9 +24,10 @@ const Settings = ({ navigation }) => {
   const [themeToggle, setThemeToggle] = useState(true);
   const { isActivated, handleScreenCapture } = useScreenCapture();
 
-  const changeTheme = () => {
+  const changeTheme = async () => {
     setThemeToggle((prev) => !prev);
     theme === "dark" ? setTheme("light") : setTheme("dark");
+    setPref("theme", theme);
   };
 
   const progress = useDerivedValue(() => {

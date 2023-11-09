@@ -11,7 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
-import { getData } from "../utils/asyncStorage";
+import { getData, getPref } from "../utils/asyncStorage";
 
 const LoginScreen = ({ navigation }) => {
   const { theme, setUserDetails } = useContext(ThemeContext);
@@ -69,6 +69,13 @@ const LoginScreen = ({ navigation }) => {
       return () => clearTimeout(timeout);
     }
   }, [error]);
+
+  useEffect(() => {
+    (() => {
+      const theme = getPref("theme");
+      console.log(theme);
+    })();
+  }, []);
 
   return (
     <View
