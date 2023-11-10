@@ -1,13 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import React, { useContext, useEffect } from "react";
+import { View, StyleSheet, Text } from "react-native";
+import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Cards, QuickAccess, Transactions } from "../components";
@@ -17,36 +11,12 @@ const HomeScreen = () => {
   const { theme, userDetails } = useContext(ThemeContext);
   const { top } = useSafeAreaInsets();
 
-  const progress = useDerivedValue(() => {
-    return theme === "light" ? withTiming(0) : withTiming(1);
-  }, [theme]);
-
-  const rStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.dark.background, Colors.light.background]
-    );
-
-    return {
-      backgroundColor,
-    };
-  });
-
-  const rTxtStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.light.background, Colors.dark.background]
-    );
-
-    return {
-      color,
-    };
-  });
+  const backgroundColor =
+    theme === "light" ? Colors.light.background : Colors.dark.background;
+  const color = theme === "light" ? Colors.light.text : Colors.dark.text;
 
   return (
-    <Animated.View style={[{ paddingTop: top, flex: 1 }, rStyle]}>
+    <View style={{ paddingTop: top, flex: 1, backgroundColor }}>
       <View
         style={[
           styles.flex,
@@ -59,22 +29,18 @@ const HomeScreen = () => {
         ]}
       >
         <View>
-          <Animated.Text
-            style={[
-              {
-                fontSize: 20,
-                fontFamily: "Agbalumo",
-              },
-              rTxtStyle,
-            ]}
+          <Text
+            style={{
+              fontSize: 20,
+              fontFamily: "Agbalumo",
+              color,
+            }}
           >
             Hello {userDetails.name.split(" ")[0]}👋
-          </Animated.Text>
-          <Animated.Text
-            style={[{ fontFamily: "MonBold", fontSize: 12 }, rTxtStyle]}
-          >
+          </Text>
+          <Text style={{ fontFamily: "MonBold", fontSize: 12, color }}>
             Your financial dreamland...
-          </Animated.Text>
+          </Text>
         </View>
         <UserCircleIcon
           color={"#023E8A"}
@@ -89,7 +55,7 @@ const HomeScreen = () => {
       <Cards />
       <QuickAccess />
       <Transactions />
-    </Animated.View>
+    </View>
   );
 };
 

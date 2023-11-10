@@ -70,13 +70,6 @@ const LoginScreen = ({ navigation }) => {
     }
   }, [error]);
 
-  useEffect(() => {
-    (() => {
-      const theme = getPref("theme");
-      console.log(theme);
-    })();
-  }, []);
-
   return (
     <View
       style={{

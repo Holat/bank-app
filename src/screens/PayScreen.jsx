@@ -1,11 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-  useDerivedValue,
-  interpolateColor,
-} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Colors } from "../constants/Theme";
@@ -18,26 +12,13 @@ const PayScreen = () => {
 
   const borderColor =
     theme === "dark" ? Colors.dark.primary : Colors.light.primary;
-  const backgroundColor = theme === "dark" ? "#292929" : "white";
 
-  const progress = useDerivedValue(() => {
-    return theme === "light" ? withTiming(0) : withTiming(1);
-  }, [theme]);
-
-  const rStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.dark.background, Colors.light.background]
-    );
-
-    return {
-      backgroundColor,
-    };
-  });
+  const backgroundColor =
+    theme === "light" ? Colors.light.background : Colors.dark.background;
+  const color = theme === "light" ? Colors.light.text : Colors.dark.text;
 
   return (
-    <Animated.View style={[rStyle, { paddingTop: top }, styles.cont]}>
+    <View style={[{ paddingTop: top, backgroundColor, flex: 1 }]}>
       <Text
         style={[
           {
@@ -71,7 +52,7 @@ const PayScreen = () => {
               ]}
             >
               <QuickAccessIcon color={color} i={i} />
-              <Animated.Text
+              <Text
                 style={[
                   styles.txt,
                   {
@@ -81,12 +62,12 @@ const PayScreen = () => {
                 ]}
               >
                 {name}
-              </Animated.Text>
+              </Text>
             </View>
           );
         })}
       </View>
-    </Animated.View>
+    </View>
   );
 };
 

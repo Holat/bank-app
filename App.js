@@ -1,28 +1,36 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 
 import ThemeContextProvider from "./src/constants/ThemeContextProvider";
-import { useCustomFonts } from "./src/hooks";
+import { useCustomFonts, usePref } from "./src/hooks";
 import AppNavigation from "./src/navigation";
 
 export default function App() {
+  const [themeLoaded, setThemeLoaded] = useState(false);
   const fontsLoaded = useCustomFonts();
+  const themePref = usePref();
+
+  useEffect(() => {
+    if (themePref) {
+      setThemeLoaded(true);
+    }
+  }, [themePref]);
 
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsLoaded && themeLoaded) {
       await SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, themeLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded || !themeLoaded) return null;
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ThemeContextProvider>
+        <ThemeContextProvider themePref={themePref}>
           <BottomSheetModalProvider>
             <AppNavigation />
           </BottomSheetModalProvider>

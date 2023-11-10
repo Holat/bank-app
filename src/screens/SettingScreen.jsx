@@ -1,5 +1,5 @@
 import { View, StyleSheet, Pressable, Text } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserCircleIcon } from "react-native-heroicons/solid";
 import { Switch } from "react-native-gesture-handler";
@@ -21,13 +21,12 @@ const Settings = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
   const { theme, setTheme, showBalance, setShowBalance, userDetails } =
     useContext(ThemeContext);
-  const [themeToggle, setThemeToggle] = useState(true);
   const { isActivated, handleScreenCapture } = useScreenCapture();
 
-  const changeTheme = async () => {
-    setThemeToggle((prev) => !prev);
-    theme === "dark" ? setTheme("light") : setTheme("dark");
-    setPref("theme", theme);
+  const changeTheme = async (isDark) => {
+    const newTheme = isDark ? "dark" : "light";
+    setTheme(newTheme);
+    await setPref("theme", newTheme);
   };
 
   const progress = useDerivedValue(() => {
@@ -131,9 +130,9 @@ const Settings = ({ navigation }) => {
           </Animated.Text>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={themeToggle ? "#023E8A" : "#f4f3f4"}
+            thumbColor={theme === "dark" ? "#023E8A" : "#f4f3f4"}
             onValueChange={changeTheme}
-            value={themeToggle}
+            value={theme === "dark"}
           />
         </View>
         <View style={styles.switchCont}>
