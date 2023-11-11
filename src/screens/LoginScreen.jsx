@@ -1,6 +1,14 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  Keyboard,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 
+import { IP } from "@env";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,10 +19,12 @@ import Animated, {
 } from "react-native-reanimated";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
-import { getData, getPref } from "../utils/asyncStorage";
+import { getData } from "../utils/asyncStorage";
+import { Loading } from "../components";
 
 const LoginScreen = ({ navigation }) => {
   const { theme, setUserDetails } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
   const { top } = useSafeAreaInsets();
   const [values, setValues] = useState({
     password: "",
@@ -30,8 +40,10 @@ const LoginScreen = ({ navigation }) => {
 
   const handleSubmit = () => {
     if (values.password.length === 4 && values.email.trim()) {
+      Keyboard.dismiss();
+      setLoading(true);
       axios
-        .post("http://192.168.66.71:3000/login", values)
+        .post(`http://${IP}/login`, values)
         .then((res) => {
           if (res.data.Status === "Success") {
             navigation.replace("Tab");
@@ -39,7 +51,10 @@ const LoginScreen = ({ navigation }) => {
             setError(res.data.Error);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       setError("Incomplete Pin");
     }
@@ -78,6 +93,7 @@ const LoginScreen = ({ navigation }) => {
         flex: 1,
       }}
     >
+      {loading && <Loading />}
       <View
         style={{
           backgroundColor: "#023E8A",

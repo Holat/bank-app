@@ -1,38 +1,19 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import React, { useContext } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  interpolateColor,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 import { QuickAccessIcon, QuickAccessList } from "../constants";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 const QuickAccess = () => {
   const { theme } = useContext(ThemeContext);
-  const progress = useDerivedValue(() => {
-    return theme === "light" ? withTiming(0) : withTiming(1);
-  }, [theme]);
+  const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
-  const rTxtStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.light.background, Colors.dark.background]
-    );
-
-    return {
-      color,
-    };
-  });
   return (
     <View style={styles.cont}>
-      <Animated.Text style={[styles.quickAHeader, rTxtStyle]}>
+      <Text style={[styles.quickAHeader, { color: txtColor }]}>
         Quick Access
-      </Animated.Text>
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -56,9 +37,7 @@ const QuickAccess = () => {
               ]}
             >
               <QuickAccessIcon color={color} i={i} />
-              <Animated.Text style={[styles.txt, rTxtStyle]}>
-                {name}
-              </Animated.Text>
+              <Text style={[styles.txt, { color: txtColor }]}>{name}</Text>
             </View>
           );
         })}

@@ -15,7 +15,6 @@ const PayScreen = () => {
 
   const backgroundColor =
     theme === "light" ? Colors.light.background : Colors.dark.background;
-  const color = theme === "light" ? Colors.light.text : Colors.dark.text;
 
   return (
     <View style={[{ paddingTop: top, backgroundColor, flex: 1 }]}>

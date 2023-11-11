@@ -6,6 +6,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Keyboard,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import Animated, { FadeInDown, FadeOutUp } from "react-native-reanimated";
@@ -15,9 +16,12 @@ import axios from "axios";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { storeData } from "../utils/asyncStorage";
+import { IP } from "@env";
+import { Loading } from "../components";
 
 const SignupScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
   const { top } = useSafeAreaInsets();
   const [error, setError] = useState("");
   const [data, setData] = useState({
@@ -51,8 +55,10 @@ const SignupScreen = ({ navigation }) => {
       return;
     }
 
+    Keyboard.dismiss();
+    setLoading(true);
     axios
-      .post("http://192.168.66.71:3000/signup", data)
+      .post(`http://${IP}/signup`, data)
       .then(async (res) => {
         if (res.data.Status === "Success") {
           await storeData("userDetails", {
@@ -67,6 +73,9 @@ const SignupScreen = ({ navigation }) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -79,6 +88,7 @@ const SignupScreen = ({ navigation }) => {
         flex: 1,
       }}
     >
+      {loading && <Loading />}
       <View
         style={{
           backgroundColor: "#023E8A",

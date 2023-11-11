@@ -4,6 +4,7 @@ import QuickAccess from "./quickAccess";
 import CustomTabBar from "./CustomTabBar";
 import CreditCard from "./creditCard";
 import BankListBottomSheet from "./bankListBottomSheet";
+import Loading from "./Loading";
 
 export {
   Cards,
@@ -12,4 +13,5 @@ export {
   CustomTabBar,
   CreditCard,
   BankListBottomSheet,
+  Loading,
 };

@@ -4,50 +4,22 @@ import {
   BuildingLibraryIcon,
   RectangleStackIcon,
 } from "react-native-heroicons/solid";
-import Animated, {
-  withTiming,
-  useDerivedValue,
-  interpolateColor,
-  useAnimatedStyle,
-} from "react-native-reanimated";
 import axios from "axios";
 
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { getTime, priceToCurrency } from "../utils";
+import { IP } from "@env";
 
 const Card = ({ item }) => {
   const { theme } = useContext(ThemeContext);
-  const progress = useDerivedValue(() => {
-    return theme === "light" ? withTiming(0) : withTiming(1);
-  }, [theme]);
 
-  const rStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.dark.background, Colors.light.background]
-    );
-
-    return {
-      backgroundColor,
-    };
-  });
-
-  const rTxtStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.light.background, Colors.dark.background]
-    );
-
-    return {
-      color,
-    };
-  });
+  const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
+  const backgroundColor =
+    theme === "dark" ? Colors.dark.background : Colors.light.background;
 
   return (
-    <Animated.View style={[styles.cont, rStyle]}>
+    <View style={[styles.cont, { backgroundColor }]}>
       <View style={styles.icon}>
         <BuildingLibraryIcon color={"white"} size={25} />
       </View>
@@ -59,10 +31,10 @@ const Card = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <Animated.Text style={[styles.boldTxt, rTxtStyle]}>
+          <Text style={[styles.boldTxt, { color: txtColor }]}>
             {item.recipient}
-          </Animated.Text>
-          <Animated.Text
+          </Text>
+          <Text
             style={[
               styles.boldTxt,
               {
@@ -79,20 +51,24 @@ const Card = ({ item }) => {
           >
             {item.transtype?.toLowerCase() == "debit" ? "-" : "+"}
             {priceToCurrency(item.amount?.toString())}
-          </Animated.Text>
+          </Text>
         </View>
         <View>
-          <Animated.Text
+          <Text
             style={[
-              { fontFamily: "RobotoRegular", opacity: 0.5, fontSize: 12 },
-              rTxtStyle,
+              {
+                fontFamily: "RobotoRegular",
+                opacity: 0.5,
+                fontSize: 12,
+                color: txtColor,
+              },
             ]}
           >
             {getTime(item.time)}
-          </Animated.Text>
+          </Text>
         </View>
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -100,25 +76,11 @@ const Transactions = () => {
   const { theme, userDetails } = useContext(ThemeContext);
   const [trans, setTrans] = useState([""]);
 
-  const progress = useDerivedValue(() => {
-    return theme === "light" ? withTiming(0) : withTiming(1);
-  }, [theme]);
-
-  const rTxtStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [1, 0],
-      [Colors.light.background, Colors.dark.background]
-    );
-
-    return {
-      color,
-    };
-  });
+  const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
 
   useEffect(() => {
     axios
-      .get(`http://192.168.66.71:3000/transaction/${userDetails.id}`)
+      .get(`http://${IP}/transaction/${userDetails.id}`)
       .then((res) => {
         setTrans(res.data.result);
       })
@@ -129,9 +91,7 @@ const Transactions = () => {
 
   return (
     <View style={{ flex: 2 }}>
-      <Animated.Text style={[styles.header, rTxtStyle]}>
-        Transactions
-      </Animated.Text>
+      <Text style={[styles.header, { color: txtColor }]}>Transactions</Text>
       {trans.length === 0 ? (
         <View
           style={{
@@ -180,7 +140,6 @@ export default Transactions;
 
 const styles = StyleSheet.create({
   cont: {
-    // flex: 1,
     flexDirection: "row",
     gap: 10,
     alignItems: "center",

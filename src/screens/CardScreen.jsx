@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
-import { CreditCard } from "../components";
+import { CreditCard, Loading } from "../components";
 
 const CardScreen = () => {
   const { top } = useSafeAreaInsets();

@@ -6,6 +6,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Keyboard,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import Animated, { FadeInDown, FadeOutUp } from "react-native-reanimated";
@@ -15,9 +16,12 @@ import axios from "axios";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { storeData } from "../utils/asyncStorage";
+import { IP } from "@env";
+import { Loading } from "../components";
 
 const SigninScreen = ({ navigation }) => {
   const { theme, setUserDetails } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
   const { top } = useSafeAreaInsets();
   const [data, setData] = useState({
     email: "",
@@ -45,16 +49,22 @@ const SigninScreen = ({ navigation }) => {
       return;
     }
 
+    Keyboard.dismiss();
+    setLoading(true);
     axios
-      .post("http://192.168.66.71:3000/login", data)
+      .post(`http://${IP}/login`, data)
       .then(async (res) => {
         if (res.data.Status === "Success") {
           const { firstname, lastname, email, id } = res.data.details;
-          setUserDetails({ name: `${firstname} ${lastname}`, email, id });
+          setUserDetails({
+            name: `${firstname} ${lastname}`,
+            email,
+            id,
+          });
           await storeData("userDetails", {
             name: `${firstname} ${lastname}`,
             email,
-            id: res.data.id,
+            id,
           });
           navigation.replace("Login");
         } else {
@@ -63,6 +73,9 @@ const SigninScreen = ({ navigation }) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -75,6 +88,7 @@ const SigninScreen = ({ navigation }) => {
         flex: 1,
       }}
     >
+      {loading && <Loading />}
       <View
         style={{
           backgroundColor: "#023E8A",
@@ -192,6 +206,7 @@ const SigninScreen = ({ navigation }) => {
               keyboardType="numeric"
               maxLength={4}
               caretHidden={true}
+              secureTextEntry={true}
             />
           </View>
           <Pressable
