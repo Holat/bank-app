@@ -5,6 +5,7 @@ import CustomTabBar from "./CustomTabBar";
 import CreditCard from "./creditCard";
 import BankListBottomSheet from "./bankListBottomSheet";
 import Loading from "./Loading";
+import Error from "./Error";
 
 export {
   Cards,
@@ -14,4 +15,5 @@ export {
   CreditCard,
   BankListBottomSheet,
   Loading,
+  Error,
 };

@@ -12,20 +12,17 @@ import { IP } from "@env";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeOutUp,
-} from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import { getData } from "../utils/asyncStorage";
-import { Loading } from "../components";
+import { Loading, Error } from "../components";
 
 const LoginScreen = ({ navigation }) => {
   const { theme, setUserDetails } = useContext(ThemeContext);
   const [loading, setLoading] = useState(false);
   const { top } = useSafeAreaInsets();
+  const [error, setError] = useState("");
   const [values, setValues] = useState({
     password: "",
     email: "",
@@ -33,10 +30,10 @@ const LoginScreen = ({ navigation }) => {
     id: null,
   });
 
-  const [error, setError] = useState("");
-
   const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
   const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
+  const errBck =
+    theme === "dark" ? Colors.dark.background : Colors.light.background;
 
   const handleSubmit = () => {
     if (values.password.length === 4 && values.email.trim()) {
@@ -51,12 +48,16 @@ const LoginScreen = ({ navigation }) => {
             setError(res.data.Error);
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err);
+          setError("Something went wrong");
+        })
         .finally(() => {
           setLoading(false);
         });
     } else {
       setError("Incomplete Pin");
+      return;
     }
   };
 
@@ -101,24 +102,7 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
         }}
       />
-      {error && (
-        <Animated.View
-          entering={FadeInDown}
-          exiting={FadeOutUp}
-          style={{
-            backgroundColor: Colors.dark.card,
-            position: "absolute",
-            marginTop: top + 10,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            borderRadius: 5,
-            alignSelf: "center",
-          }}
-        >
-          <Text style={{ color: "red", fontFamily: "MonBold" }}>{error}</Text>
-        </Animated.View>
-      )}
-
+      {error && <Error error={error} backgroundColor={errBck} />}
       <View
         style={{
           paddingHorizontal: 15,

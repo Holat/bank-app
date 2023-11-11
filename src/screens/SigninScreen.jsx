@@ -9,7 +9,6 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
-import Animated, { FadeInDown, FadeOutUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import axios from "axios";
 
@@ -17,20 +16,22 @@ import { ThemeContext } from "../constants/ThemeContextProvider";
 import { Colors } from "../constants/Theme";
 import { storeData } from "../utils/asyncStorage";
 import { IP } from "@env";
-import { Loading } from "../components";
+import { Loading, Error } from "../components";
 
 const SigninScreen = ({ navigation }) => {
   const { theme, setUserDetails } = useContext(ThemeContext);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { top } = useSafeAreaInsets();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
 
   const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
   const txtColor = theme === "dark" ? Colors.dark.text : Colors.light.text;
+  const errBck =
+    theme === "dark" ? Colors.dark.background : Colors.light.background;
 
   useEffect(() => {
     if (error) {
@@ -73,6 +74,7 @@ const SigninScreen = ({ navigation }) => {
       })
       .catch((err) => {
         console.log(err);
+        setError("Something went wrong");
       })
       .finally(() => {
         setLoading(false);
@@ -96,23 +98,7 @@ const SigninScreen = ({ navigation }) => {
           flex: 1,
         }}
       />
-      {error && (
-        <Animated.View
-          entering={FadeInDown}
-          exiting={FadeOutUp}
-          style={{
-            backgroundColor: Colors.dark.card,
-            position: "absolute",
-            marginTop: top + 10,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            borderRadius: 5,
-            alignSelf: "center",
-          }}
-        >
-          <Text style={{ color: "red", fontFamily: "MonBold" }}>{error}</Text>
-        </Animated.View>
-      )}
+      {error && <Error error={error} backgroundColor={errBck} />}
 
       <View
         style={{
