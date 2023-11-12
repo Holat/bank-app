@@ -7,12 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useRef, useCallback, useState } from "react";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  FadeOut,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeInDown, FadeOut } from "react-native-reanimated";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   CheckCircleIcon,

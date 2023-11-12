@@ -10,6 +10,7 @@ import {
 import Animated from "react-native-reanimated";
 
 const HomeIconA = Animated.createAnimatedComponent(<HomeIcon />);
+
 const TabBarIcon = ({ i, rStyle, color }) => {
   switch (i) {
     case 0:

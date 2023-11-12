@@ -13,24 +13,9 @@ import {
 } from "react-native-heroicons/solid";
 
 const Accounts = [
-  {
-    id: "a2",
-    name: "Others",
-    balance: "10,000",
-    color: "#06D6A0",
-  },
-  {
-    id: "a1",
-    name: "Savings",
-    balance: "50,000",
-    color: "#F72585",
-  },
-  {
-    id: "a0",
-    name: "Current",
-    balance: "10,000",
-    color: "#001c55",
-  },
+  { id: "a2", name: "Others", color: "#06D6A0" },
+  { id: "a1", name: "Savings", color: "#F72585" },
+  { id: "a0", name: "Current", color: "#001c55" },
 ];
 
 const Icon = ({ i, style }) => {
@@ -69,10 +54,7 @@ const QuickAccessIcon = ({ i, color }) => {
 };
 
 const QuickAccessList = [
-  {
-    name: "Airtime",
-    color: "#FEC840",
-  },
+  { name: "Airtime", color: "#FEC840" },
   { name: "Internet", color: "#1BCBEE" },
   { name: "Bill", color: "#F7675A" },
   { name: "GiftCard", color: "#FFC83F" },

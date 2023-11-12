@@ -11,6 +11,9 @@ const ThemeContextProvider = ({ children, themePref }) => {
     name: "",
     id: null,
     email: "",
+    savings: null,
+    current: null,
+    other: null,
   });
 
   const contextValue = {

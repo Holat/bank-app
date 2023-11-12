@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPref } from "../utils/asyncStorage";
+import { getPref, setPref } from "../utils/asyncStorage";
 
 const usePref = () => {
   const [theme, setTheme] = useState(false);
@@ -9,6 +9,9 @@ const usePref = () => {
       const userTheme = await getPref("theme");
       if (userTheme) {
         setTheme(userTheme);
+      } else {
+        await setPref("theme", "dark");
+        setTheme("dark");
       }
     };
 

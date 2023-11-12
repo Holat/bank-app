@@ -1,8 +1,5 @@
-import { useCallback, useEffect } from "react";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 
-// SplashScreen.preventAutoHideAsync();
 const useCustomFonts = () => {
   const [fontsLoaded] = useFonts({
     Agbalumo: require("../../assets/fonts/Agbalumo-Regular.ttf"),

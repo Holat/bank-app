@@ -127,7 +127,7 @@ const SigninScreen = ({ navigation }) => {
               marginBottom: 20,
             }}
           >
-            Login another account
+            Login new account
           </Text>
           <View>
             <Text

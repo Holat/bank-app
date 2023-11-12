@@ -1,5 +1,4 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -17,7 +16,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomTabBar } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const { width, height } = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

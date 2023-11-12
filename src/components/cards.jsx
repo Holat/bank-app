@@ -1,14 +1,18 @@
 import { StyleSheet, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Accounts } from "../constants";
 import { useSharedValue } from "react-native-reanimated";
 import Circle from "./circle";
 import Card from "./card";
+import { ThemeContext } from "../constants/ThemeContextProvider";
 
 const Cards = () => {
+  const { userDetails } = useContext(ThemeContext);
   const firstPriority = useSharedValue(1);
   const secondPriority = useSharedValue(0.9);
   const thirdPriority = useSharedValue(0.8);
+  const { savings, current, other } = userDetails;
+
   return (
     <View style={styles.cont}>
       <View
@@ -23,6 +27,7 @@ const Cards = () => {
         {Accounts.map((acct, i) => {
           const priority =
             i === 0 ? thirdPriority : i === 1 ? secondPriority : firstPriority;
+          const balance = i === 0 ? other : i === 1 ? savings : current;
           return (
             <Card
               index={i}
@@ -32,6 +37,7 @@ const Cards = () => {
               firstPriority={firstPriority}
               secondPriority={secondPriority}
               thirdPriority={thirdPriority}
+              balance={balance}
             />
           );
         })}

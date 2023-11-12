@@ -20,6 +20,7 @@ const Card = ({
   secondPriority,
   thirdPriority,
   priority,
+  balance,
 }) => {
   const { showBalance } = useContext(ThemeContext);
   const BB = 0;
@@ -97,7 +98,9 @@ const Card = ({
         <View>
           <Text style={styles.cardTxt1}>Balance: </Text>
           {showBalance ? (
-            <Text style={styles.cardTxt2}>{priceToCurrency(acct.balance)}</Text>
+            <Text style={styles.cardTxt2}>
+              {priceToCurrency(balance?.toString())}
+            </Text>
           ) : (
             <View style={styles.txtB}>
               <Text style={[styles.cardTxt2, { opacity: 0.2 }]}>

@@ -43,6 +43,8 @@ const LoginScreen = ({ navigation }) => {
         .post(`http://${IP}/login`, values)
         .then((res) => {
           if (res.data.Status === "Success") {
+            const { current, savings, other } = res.data.details;
+            setUserDetails((prev) => ({ ...prev, current, savings, other }));
             navigation.replace("Tab");
           } else {
             setError(res.data.Error);
@@ -67,9 +69,14 @@ const LoginScreen = ({ navigation }) => {
       if (data) {
         const { email, id, name } = data;
         setValues({ ...values, email, id, name });
-        setUserDetails({ name, id, email });
+        setUserDetails((prev) => ({
+          ...prev,
+          name,
+          id,
+          email,
+        }));
       } else {
-        navigation.push("Signin");
+        navigation.replace("Signin");
       }
     };
 
@@ -141,7 +148,7 @@ const LoginScreen = ({ navigation }) => {
               marginTop: 30,
             }}
           >
-            {values.name?.split(" ")[0]}
+            Welcome Back, {values.name?.split(" ")[0]}
           </Text>
           <View>
             <Text
