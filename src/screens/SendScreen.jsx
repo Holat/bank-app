@@ -21,14 +21,14 @@ import { Colors } from "../constants/Theme";
 import { ThemeContext } from "../constants/ThemeContextProvider";
 import { BankListBottomSheet } from "../components";
 import { useAccountName } from "../hooks";
-import priceToCurrency from "../utils/pricetoCurrency";
 import { Accounts } from "../constants";
+import { priceToCurrency } from "../utils";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const SendScreen = () => {
   const { top } = useSafeAreaInsets();
-  const { theme } = useContext(ThemeContext);
+  const { theme, userDetails } = useContext(ThemeContext);
   const bottomSheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const Acct = Accounts.slice().reverse();
@@ -43,6 +43,7 @@ const SendScreen = () => {
     debitAcctBalance: Acct[0].balance,
   });
   const { name, err, loading } = useAccountName(data);
+  const { savings, current, other } = userDetails;
 
   const backgroundColor = theme === "dark" ? "#292929" : Colors.light.card;
 
@@ -54,10 +55,6 @@ const SendScreen = () => {
 
   const handlePresentModal = useCallback(() => {
     bottomSheetRef.current?.present();
-  }, []);
-
-  const handlePresentModalClose = useCallback(() => {
-    bottomSheetRef.current?.close();
   }, []);
 
   const handleTextInput = (text) => {
@@ -255,7 +252,8 @@ const SendScreen = () => {
               styles.bankNamePlaceHolder,
             ]}
           >
-            {data.debitAcct} ~ ₦{data.debitAcctBalance}
+            {data.debitAcct} ~{" "}
+            {priceToCurrency(data.debitAcctBalance?.toString())}
           </Animated.Text>
           {!isOpen ? (
             <Pressable
@@ -286,42 +284,49 @@ const SendScreen = () => {
               styles.dropDown,
             ]}
           >
-            {Acct.map(({ name, balance }, i) => (
-              <Pressable
-                key={name}
-                onPress={() => {
-                  setData({
-                    ...data,
-                    debitAcct: name,
-                    debitAcctBalance: balance,
-                  });
-                  setIsOpen(false);
-                }}
-                style={[
-                  {
-                    borderColor: "grey",
-                  },
-                  styles.dropDownBtn,
-                  data.debitAcct === name && { borderColor: "green" },
-                ]}
-              >
-                <Text
+            {Acct.map(({ name }, i) => {
+              const balance = i === 0 ? other : i === 1 ? savings : current;
+              return (
+                <Pressable
+                  key={name}
+                  onPress={() => {
+                    setData({
+                      ...data,
+                      debitAcct: name,
+                      debitAcctBalance: balance,
+                    });
+                    setIsOpen(false);
+                  }}
                   style={[
                     {
-                      color:
-                        theme === "dark" ? Colors.dark.text : Colors.light.text,
-                      fontFamily: "RobotoBold",
-                      fontSize: 18,
-                      opacity: 0.7,
+                      borderColor: "grey",
                     },
-                    data.debitAcct === name && { color: "green" },
+                    styles.dropDownBtn,
+                    data.debitAcct === name && { borderColor: "green" },
                   ]}
                 >
-                  {name} ~ ₦{balance}
-                </Text>
-                {data.debitAcct === name && <CheckCircleIcon color={"green"} />}
-              </Pressable>
-            ))}
+                  <Text
+                    style={[
+                      {
+                        color:
+                          theme === "dark"
+                            ? Colors.dark.text
+                            : Colors.light.text,
+                        fontFamily: "RobotoBold",
+                        fontSize: 18,
+                        opacity: 0.7,
+                      },
+                      data.debitAcct === name && { color: "green" },
+                    ]}
+                  >
+                    {name} ~ {priceToCurrency(balance?.toString())}
+                  </Text>
+                  {data.debitAcct === name && (
+                    <CheckCircleIcon color={"green"} />
+                  )}
+                </Pressable>
+              );
+            })}
           </Animated.View>
         </Pressable>
         <Text
